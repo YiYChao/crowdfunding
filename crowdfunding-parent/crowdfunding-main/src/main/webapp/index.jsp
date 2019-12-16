@@ -7,7 +7,6 @@
 <title>测试页面</title>
 </head>
 <body>
-	<h1>测试页面</h1>
-	<a href="${pageContext.request.contextPath}/test.do">test</a>
+	<jsp:forward page="/index.html"></jsp:forward>
 </body>
 </html>
