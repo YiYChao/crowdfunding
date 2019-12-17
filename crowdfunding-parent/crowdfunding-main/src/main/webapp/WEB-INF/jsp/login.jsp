@@ -12,9 +12,6 @@
 	<link rel="stylesheet" href="${APP_PATH}/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/login.css">
-	<style>
-
-	</style>
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -31,17 +28,17 @@
       	${exception.message}
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
 		  <div class="form-group has-success has-feedback">
-			<input type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录账号" name="loginacct" value="zhangsan" autofocus>
+			<input type="text" class="form-control" id="floginacct" placeholder="请输入登录账号" name="loginacct" value="zhangsan" autofocus>
 			<span class="glyphicon glyphicon-user form-control-feedback"></span>
 		  </div>
 		  <div class="form-group has-success has-feedback">
-			<input type="password" class="form-control" id="inputSuccess4" placeholder="请输入登录密码"  name="userpswd" value="12345" style="margin-top:10px;">
+			<input type="password" class="form-control" id="fuserpswd" placeholder="请输入登录密码"  name="userpswd" value="12345" style="margin-top:10px;">
 			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 		  </div>
 		  <div class="form-group has-success has-feedback">
-			<select class="form-control" naem="type">
+			<select class="form-control" id="ftype" name="type">
                 <option value="member">会员</option>
-                <option value="user">管理</option>
+                <option value="user" selected>管理</option>
             </select>
 		  </div>
         <div class="checkbox">
@@ -64,7 +61,45 @@
     <script>
     	
 	    function dologin() {
-	    	$("#loginForm").submit();
+	    	loginacct = $("#floginacct");
+	    	userpswd = $("#fuserpswd");
+	    	type = $("#ftype");
+	    	$.ajax({
+	    		url : "${APP_PATH}/doLogin.do",
+	    		type : "POST",
+	    		data : {
+	    			"loginacct" : loginacct.val(),
+	    			"userpswd" : userpswd.val(),
+	    			"type" : type.val()
+	    		},
+	    		beforeSend : function(){
+	    			// 表单提交前进行校验
+	    			if($.trim(loginacct.val()) == ""){
+	    				alert("用户名不能为空！");
+	    				loginacct.focus();
+	    				return false;
+	    			}
+	    			if($.trim(userpswd.val()) == ""){
+	    				alert("密码不能为空！");
+	    				userpswd.focus();
+	    				return false;
+	    			}
+	    			return true;
+	    		},
+	    		success : function(data){
+	    			if(!data.success){
+	    				alert(data.message);
+	    			}else{
+	    				window.location.href = "${APP_PATH}/main.html";
+	    			}
+	    			
+	    		},
+	    		error : function(){
+	    			
+	    		}
+
+	    	});
+	    	/* $("#loginForm").submit(); */
 	        /* var type = $(":selected").val();
 	        if ( type == "user" ) {
 	            window.location.href = "main.html";

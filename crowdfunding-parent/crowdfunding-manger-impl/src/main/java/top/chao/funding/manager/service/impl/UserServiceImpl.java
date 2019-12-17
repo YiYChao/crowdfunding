@@ -1,6 +1,6 @@
 package top.chao.funding.manager.service.impl;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,9 @@ public class UserServiceImpl implements UserService{
 	private TUserMapper tUserMapper;
 
 	@Override
-	public TUser queryUserLogin(HashMap<String, Object> userMap) {
+	public TUser queryUserLogin(Map<String, Object> userMap) {
 		
 		TUser user = tUserMapper.queryUserLogin(userMap);
-		System.out.println(user);
 		if(user == null) {
 			throw new LoginFailException("用户名或密码不正确！");
 		}

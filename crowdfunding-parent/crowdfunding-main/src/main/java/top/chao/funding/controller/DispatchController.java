@@ -8,10 +8,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.chao.funding.bean.TUser;
 import top.chao.funding.manager.service.UserService;
+import top.chao.funding.util.AjaxResult;
 import top.chao.funding.util.Const;
+import top.chao.funding.util.MD5Util;
 
 /**
  * @ClassName: DispatchController  
@@ -39,15 +42,41 @@ public class DispatchController {
 		return "main";
 	}
 	
-	@RequestMapping("/doLogin")
-	public String doLogin(String loginacct, String userpswd,String type, HttpSession session) {
-		HashMap<String, Object> userMap = new HashMap<String, Object>();
-		userMap.put("loginacct", loginacct);
-		userMap.put("userpswd", userpswd);
-		userMap.put("type", type);
-		TUser user = userService.queryUserLogin(userMap);
-		session.setAttribute(Const.LOGIN_USER, user);
-		return "redirect:/main.html";
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+//		session.removeAttribute(Const.LOGIN_USER);
+		session.invalidate(); // 销毁或者清理session域
+		return "redirect:/index.html";
 	}
+	
+	
+	@RequestMapping("/doLogin")
+	@ResponseBody
+	public AjaxResult doLogin(String loginacct, String userpswd,String type, HttpSession session) {
+		AjaxResult result = new AjaxResult();
+		try {
+			Map<String, Object> userMap = new HashMap<String, Object>();
+			userMap.put("loginacct", loginacct);
+			userMap.put("userpswd", MD5Util.digest(userpswd));	// 采用MD5对密码进行加密
+			userMap.put("type", type);
+			TUser user = userService.queryUserLogin(userMap);
+			session.setAttribute(Const.LOGIN_USER, user);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("登录失败！");
+		}
+		return result;
+	}
+	
+	/*
+	 * @RequestMapping("/doLogin") public String doLogin(String loginacct, String
+	 * userpswd,String type, HttpSession session) { HashMap<String, Object> userMap
+	 * = new HashMap<String, Object>(); userMap.put("loginacct", loginacct);
+	 * userMap.put("userpswd", userpswd); userMap.put("type", type); TUser user =
+	 * userService.queryUserLogin(userMap); session.setAttribute(Const.LOGIN_USER,
+	 * user); return "redirect:/main.html"; }
+	 */
 	
 }

@@ -1,6 +1,6 @@
 package top.chao.funding.manager.service;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import top.chao.funding.bean.TUser;
 
@@ -12,6 +12,6 @@ import top.chao.funding.bean.TUser;
  */
 public interface UserService {
 
-	TUser queryUserLogin(HashMap<String, Object> userMap);
+	TUser queryUserLogin(Map<String, Object> userMap);
 
 }

@@ -1,8 +1,10 @@
 package top.chao.funding.manager.dao;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
+
 import top.chao.funding.bean.TUser;
 import top.chao.funding.bean.TUserExample;
 
@@ -21,5 +23,5 @@ public interface TUserMapper {
 
     int updateByExample(@Param("record") TUser record, @Param("example") TUserExample example);
     
-    TUser queryUserLogin(HashMap<String, Object> userMap);
+    TUser queryUserLogin(Map<String, Object> userMap);
 }
