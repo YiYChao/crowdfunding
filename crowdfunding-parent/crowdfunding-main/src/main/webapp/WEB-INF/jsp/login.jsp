@@ -58,12 +58,14 @@
     </div>
     <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${APP_PATH}/jquery/layer/layer.js"></script>
     <script>
     	
 	    function dologin() {
 	    	loginacct = $("#floginacct");
 	    	userpswd = $("#fuserpswd");
 	    	type = $("#ftype");
+	    	var loadingIndex = -1;
 	    	$.ajax({
 	    		url : "${APP_PATH}/doLogin.do",
 	    		type : "POST",
@@ -75,27 +77,35 @@
 	    		beforeSend : function(){
 	    			// 表单提交前进行校验
 	    			if($.trim(loginacct.val()) == ""){
-	    				alert("用户名不能为空！");
-	    				loginacct.focus();
+	    				layer.msg("用户名不能为空！", {time:1000,icon:5,shift:6},function(){
+		    				loginacct.focus();
+		    				loginacct.val() = "";
+	    				});
 	    				return false;
 	    			}
 	    			if($.trim(userpswd.val()) == ""){
-	    				alert("密码不能为空！");
-	    				userpswd.focus();
+	    				layer.msg("密码不能为空！", {time:1000,icon:5,shift:6},function(){
+	    					userpswd.focus();
+	    					userpswd.val() = "";
+	    				});
 	    				return false;
 	    			}
+	    			loadingIndex = layer.msg("处理中...", {icon:16});
 	    			return true;
 	    		},
 	    		success : function(data){
 	    			if(!data.success){
-	    				alert(data.message);
+	    				layer.msg(data.message, {time:1000});
+	    				loadingIndex.close();
+	    				//alert(data.message);
 	    			}else{
+	    				layer.msg("登录成功", {time:2000});
 	    				window.location.href = "${APP_PATH}/main.html";
 	    			}
 	    			
 	    		},
 	    		error : function(){
-	    			
+	    			layer.msg("网络异常！", {time:1000,icon:5,shift:6});
 	    		}
 
 	    	});
