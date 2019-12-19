@@ -36,16 +36,16 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<!-- 异常解析器捕获异常后，会将异常对象存放到request域，该域的属性名称默认为exception -->
-		<!-- <property name="exceptionAttribute" value="exception"></property> -->
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		异常解析器捕获异常后，会将异常对象存放到request域，该域的属性名称默认为exception
+		<property name="exceptionAttribute" value="exception"></property>
 		<property name="exceptionMappings">
 			<props>
 				<prop key="java.lang.Exception">error/error</prop>
 				<prop key="top.chao.funding.exception.LoginFailException">login</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="UTF-8">
 		<property name="maxUploadSize" value="2097152" />

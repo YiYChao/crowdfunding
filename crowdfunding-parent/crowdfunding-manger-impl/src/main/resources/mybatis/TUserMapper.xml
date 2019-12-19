@@ -190,5 +190,10 @@
   		select id, loginacct, userpswd, username, email, createtime from t_user where
   		loginacct=#{loginacct} and userpswd=#{userpswd}
   </select>
-  
+  <select id="queryTotal" resultType="java.lang.Integer">
+  		select count(id) from t_user where 1=1;
+  </select>
+  <select id="queryList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  		select id, loginacct, userpswd, username, email, createtime from t_user limit #{begin},#{size}
+  </select>
 </mapper>

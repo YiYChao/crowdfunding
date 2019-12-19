@@ -24,4 +24,8 @@ public interface TUserMapper {
     int updateByExample(@Param("record") TUser record, @Param("example") TUserExample example);
     
     TUser queryUserLogin(Map<String, Object> userMap);
+
+	int queryTotal();
+
+	List<TUser> queryList(@Param("begin")Integer begin, @Param("size")Integer pageSize);
 }
