@@ -25,7 +25,31 @@ public interface TUserMapper {
     
     TUser queryUserLogin(Map<String, Object> userMap);
 
+    @Deprecated
 	int queryTotal();
 
+	@Deprecated
 	List<TUser> queryList(@Param("begin")Integer begin, @Param("size")Integer pageSize);
+
+	/**
+	 * @Title: queryConditionTotal
+	 * @Description: 查询分页条件下的用户总记录数
+	 * @param: condition 条件
+	 * @return: int 整型页数
+	 * @throws: 无
+	 * @date: 2019年12月19日 下午8:35:20
+	 */
+	int queryConditionTotal(String condition);
+
+	/**
+	 * @Title: queryConditonList
+	 * @Description: 分页条件查询
+	 * @param: begin 开始索引
+	 * @param: pageSize 查询记录数
+	 * @param: condition 条件
+	 * @return: List<TUser> 用户列表
+	 * @throws: 无
+	 * @date: 2019年12月19日 下午8:37:10
+	 */
+	List<TUser> queryConditonList(@Param("begin")Integer begin, @Param("size")Integer pageSize, @Param("condition")String condition);
 }

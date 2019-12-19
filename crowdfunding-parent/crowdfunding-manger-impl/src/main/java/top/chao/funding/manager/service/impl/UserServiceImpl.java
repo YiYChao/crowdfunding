@@ -11,6 +11,7 @@ import top.chao.funding.exception.LoginFailException;
 import top.chao.funding.manager.dao.TUserMapper;
 import top.chao.funding.manager.service.UserService;
 import top.chao.funding.util.PageResult;
+import top.chao.funding.util.StringUtil;
 /**
  * @ClassName: UserServiceImpl  
  * @Description: 实现用户相关的操作的接口 
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService{
 		}
 		return user;
 	}
-
+	@Deprecated
 	@Override
 	public PageResult<TUser> queryPage(Integer currentPage, Integer pageSizes) {
 		PageResult<TUser> page = new PageResult<TUser>();
@@ -49,14 +50,35 @@ public class UserServiceImpl implements UserService{
 		page.setTotalRecords(totalRecords);
 		List<TUser> list = tUserMapper.queryList(page.getBegin(),page.getPageSize());
 		page.setResultList(list);
-		
-		
-		
 		return page;
 	}
 
 	@Override
 	public void saveUser(TUser user) {
 		tUserMapper.insert(user);
+	}
+
+	@Override
+	public PageResult<TUser> queryConditionPage(Map<String, Object> map) {
+		PageResult<TUser> page = new PageResult<TUser>();
+		Integer currentPage = (Integer) map.get("currentPage");
+		Integer pageSizes = (Integer) map.get("pageSizes");
+		String condition = (String) map.get("condition");
+		
+		page.setCurrentPage(currentPage);
+		page.setPageSize(pageSizes);
+		
+		if(StringUtil.isEmpty(condition)) {
+			condition = "";
+		}else {
+			condition = condition.replaceAll("%", "\\\\%");	// 防止查询条件中包含%，replaceAll为正在表达式消耗\ => \\%，Java消耗一个\=>\%
+		}
+		condition = "%" + condition + "%";
+		
+		int totalRecords = tUserMapper.queryConditionTotal(condition);
+		page.setTotalRecords(totalRecords);
+		List<TUser> list = tUserMapper.queryConditonList(page.getBegin(),page.getPageSize(),condition);
+		page.setResultList(list);
+		return page;
 	}
 }

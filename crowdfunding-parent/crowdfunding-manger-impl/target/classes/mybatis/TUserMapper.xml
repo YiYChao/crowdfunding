@@ -196,4 +196,14 @@
   <select id="queryList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   		select id, loginacct, userpswd, username, email, createtime from t_user limit #{begin},#{size}
   </select>
+  
+  <select id="queryConditionTotal" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT count(id) FROM t_user WHERE loginacct LIKE #{condition} OR username LIKE #{condition} OR email LIKE #{condition}
+  </select>
+  <select id="queryConditonList" resultMap="BaseResultMap">
+  		SELECT id, loginacct, userpswd, username, email, createtime FROM t_user 
+  		WHERE  loginacct LIKE #{condition} OR username LIKE #{condition} OR email LIKE #{condition}
+  		LIMIT #{begin},#{size}
+  </select>
+  
 </mapper>

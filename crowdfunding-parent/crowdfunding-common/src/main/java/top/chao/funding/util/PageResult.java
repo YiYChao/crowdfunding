@@ -18,12 +18,18 @@ public class PageResult<E> {
 		return pageSize;
 	}
 	public void setPageSize(Integer pageSize) {
+		if(pageSize <= 0) {
+			pageSize = 10;
+		}
 		this.pageSize = pageSize;
 	}
 	public Integer getCurrentPage() {
 		return currentPage;
 	}
 	public void setCurrentPage(Integer currentPage) {
+		if(currentPage <= 0) {
+			currentPage = 1;
+		}
 		this.currentPage = currentPage;
 	}
 	public Integer getTotalRecords() {
