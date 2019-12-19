@@ -9,6 +9,7 @@ public class AjaxResult {
 
 	private boolean success;	// 是否成功
 	private String message;		// 结果信息
+	private PageResult<?> pageResult;
 	
 	public boolean isSuccess() {
 		return success;
@@ -22,5 +23,13 @@ public class AjaxResult {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	public PageResult<?> getPageResult() {
+		return pageResult;
+	}
+	public void setPageResult(PageResult<?> pageResult) {
+		this.pageResult = pageResult;
+	}
+	
 	
 }

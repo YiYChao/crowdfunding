@@ -167,12 +167,12 @@
                                         <th width="30"><input type="checkbox"></th>
                                         <th>账号</th>
                                         <th>名称</th>
-                                        <th>邮箱地址${page.resultList[1].loginacct}</th>
+                                        <th>邮箱地址</th>
                                         <th width="100">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	<c:forEach items="${page.resultList}" var="result" varStatus="status" >
+                                	<%-- <c:forEach items="${page.resultList}" var="result" varStatus="status" >
 	                                    <tr>
 	                                        <td>${status.count}</td>
 	                                        <td><input type="checkbox"></td>
@@ -185,7 +185,7 @@
 	                                            <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
 	                                        </td>
 	                                    </tr>
-                                	</c:forEach>
+                                	</c:forEach> --%>
 									
                                 </tbody>
                                 <tfoot>
@@ -231,9 +231,10 @@
     <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
     <script src="${APP_PATH}/script/docs.min.js"></script>
+    <script src="${APP_PATH}/jquery/layer/layer.js"></script>
     <script type="text/javascript">
     	function changePage(page){
-    		window.location.href="${APP_PATH}/user/index.html?currentPage=" + page;
+    		queryUserPage(page);
     	}
         $(function () {
             $(".list-group-item").click(function () {
@@ -245,7 +246,9 @@
                         $("ul", this).show("fast");
                     }
                 }
+                
             });
+            queryUserPage(1);
         });
         $("tbody .btn-success").click(function () {
             window.location.href = "assignRole.html";
@@ -253,6 +256,72 @@
         $("tbody .btn-primary").click(function () {
             window.location.href = "edit.html";
         });
+        function queryUserPage(page){
+        	var loadingIndex = -1;
+        	$.ajax({
+        		type : "POST",
+        		url : "${APP_PATH}/user/list.do",
+        		data : {
+        			"currentPage" : page,
+        			"pageSizes" : 10
+        		},
+        		beforeSend : function(){
+        			loadingIndex = layer.load(2, {time:1000});
+        			return true;
+        		},
+        		success : function(data){
+        			//layer.close(loadingIndex);
+        			if(data.success){
+        				var pageContent = data.pageResult;
+        				var content = '';
+        				$.each(pageContent.resultList, function(i,rst){
+        					content+='<tr>';
+        					content+='<td>'+(i+1)+'</td>';
+        					content+='<td><input type="checkbox"></td>';
+        					content+='<td>'+rst.loginacct+'</td>';
+        					content+='<td>'+rst.username+'</td>';
+        					content+='<td>'+rst.email+'</td>';
+        					content+='<td>';
+        					content+='<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+        					content+='<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+        					content+='<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+        					content+='</td>';
+        					content+='</tr>';
+        				});
+        				$("tbody").html(content);
+        				var pageBar = '';
+        				/* 拼接上一页 */
+        				if(pageContent.currentPage == 1){
+        					pageBar+='<li class="disabled"><a href="#">上一页</a></li>';
+        				}else{
+        					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage - 1)+')">上一页</a></li>';
+        				}
+        				/* 拼接中间页码 */
+        				for(var i = 1; i <= pageContent.totalPages; i++){
+        					if(i == pageContent.currentPage){
+        						pageBar+='<li class="active"><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
+        					}else{
+        						pageBar+='<li><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
+        					}
+        				}
+        				/* 拼接下一页 */
+        				if(pageContent.currentPage == pageContent.totalPages){
+        					pageBar+='<li class="disabled"><a href="#">下一页</a></li>';
+        				}else{
+        					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage + 1)+')">下一页</a></li>';
+        				}
+        				$(".pagination").html(pageBar);
+        			}else{
+        				layer.mg(result.message, {time:1000,icon:5,shift:6});
+        			}
+        		},
+        		errror : function(){
+        			layer.mg("加载数据失败！", {time:1000,icon:5,shift:6});
+        		}
+
+        	});
+        }
+        
     </script>
 </body>
 
