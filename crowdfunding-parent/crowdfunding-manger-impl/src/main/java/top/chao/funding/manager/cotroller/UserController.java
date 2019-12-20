@@ -78,4 +78,87 @@ public class UserController {
 //		}
 //		return result;
 //	}
+	
+	@RequestMapping("add")
+	public String toAdd() {
+		return "/user/add";
+	}
+	/**
+	 * @Title: doAdd
+	 * @Description: 实现新增用户的前端控制器
+	 * @return: AjaxResult 自定义Ajax实体对象
+	 * @throws: 无
+	 * @date: 2019年12月20日 上午11:06:46
+	 */
+	@RequestMapping("/doAdd")
+	@ResponseBody
+	public AjaxResult doAdd(String loginacct, String username, String email) {
+		AjaxResult result = new AjaxResult();
+		TUser user = new TUser();
+		user.setLoginacct(loginacct);
+		user.setUsername(username);
+		user.setEmail(email);
+		int res = userService.saveUser(user);
+		if(res == 1) {
+			result.setSuccess(true);
+		}else {
+			result.setSuccess(false);
+			result.setMessage("新增用户失败!");
+		}
+		return result;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping("edit")
+	public String toEdit(Integer id,Map map) {
+		TUser user = userService.queryUserByPrimaryKey(id);
+		map.put("user", user);
+		return "/user/edit";
+	}
+	
+	@RequestMapping("/doEdit")
+	@ResponseBody
+	public AjaxResult doEdit(Integer id,String loginacct, String username, String email) {
+		AjaxResult result = new AjaxResult();
+		TUser user = new TUser();
+		user.setId(id);
+		user.setLoginacct(loginacct);
+		user.setUsername(username);
+		user.setEmail(email);
+		int res = userService.updateUserByPrimaryKey(user);
+		if(res == 1) {
+			result.setSuccess(true);
+		}else {
+			result.setSuccess(false);
+			result.setMessage("修改用户失败!");
+		}
+		return result;
+	}
+	
+	@RequestMapping("/doDelete")
+	@ResponseBody
+	public AjaxResult doDelete(Integer id) {
+		AjaxResult result = new AjaxResult();
+		int res = userService.deleteUserByPrimaryKey(id);
+		if(res == 1) {
+			result.setSuccess(true);
+		}else {
+			result.setSuccess(false);
+			result.setMessage("删除用户失败!");
+		}
+		return result;
+	}
+	@RequestMapping("/batchDelete")
+	@ResponseBody
+	public AjaxResult batchDelete(Integer[] ids) {
+		AjaxResult result = new AjaxResult();
+		int res = userService.deleteUserBatchByPrimaryKey(ids);
+		if(res == ids.length) {
+			result.setSuccess(true);
+		}else {
+			result.setSuccess(false);
+			result.setMessage("删除用户失败!");
+		}
+		return result;
+	}
 }

@@ -1,5 +1,7 @@
 package top.chao.funding.manager.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import top.chao.funding.bean.TUser;
 import top.chao.funding.exception.LoginFailException;
 import top.chao.funding.manager.dao.TUserMapper;
 import top.chao.funding.manager.service.UserService;
+import top.chao.funding.util.MD5Util;
 import top.chao.funding.util.PageResult;
 import top.chao.funding.util.StringUtil;
 /**
@@ -54,8 +57,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void saveUser(TUser user) {
-		tUserMapper.insert(user);
+	public int saveUser(TUser user) {
+		user.setUserpswd(MD5Util.digest("12345"));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		user.setCreatetime(dateFormat.format(new Date()));
+		return tUserMapper.insert(user);
 	}
 
 	@Override
@@ -80,5 +86,32 @@ public class UserServiceImpl implements UserService{
 		List<TUser> list = tUserMapper.queryConditonList(page.getBegin(),page.getPageSize(),condition);
 		page.setResultList(list);
 		return page;
+	}
+	
+	@Override
+	public TUser queryUserByPrimaryKey(Integer id) {
+		return tUserMapper.selectByPrimaryKey(id);
+	}
+	
+	@Override
+	public int updateUserByPrimaryKey(TUser user) {
+		return tUserMapper.updateUserByPrimaryKey(user);
+	}
+	@Override
+	public int deleteUserByPrimaryKey(Integer id) {
+		return tUserMapper.deleteUserByPrimaryKey(id);
+	}
+	@Override
+	public int deleteUserBatchByPrimaryKey(Integer[] ids) {
+		int count = 0;
+		// 遍历主键数组，逐条进行删除
+		for(int i = 0; i < ids.length; i++) {
+			int rst = tUserMapper.deleteUserByPrimaryKey(ids[i]);
+			// 删除成功，累加记录删除记录数
+			if(rst == 1) {
+				count++;
+			}
+		}
+		return count;
 	}
 }

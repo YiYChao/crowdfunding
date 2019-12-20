@@ -205,5 +205,15 @@
   		WHERE  loginacct LIKE #{condition} OR username LIKE #{condition} OR email LIKE #{condition}
   		LIMIT #{begin},#{size}
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		SELECT id, loginacct, userpswd, username, email, createtime FROM t_user WHERE  id=#{id}
+  </select>
+  <update id="updateUserByPrimaryKey" parameterType="tUser">
+    UPDATE t_user SET loginacct = #{loginacct},username = #{username},email = #{email}
+    WHERE id = #{id}
+  </update>
+  <delete id="deleteUserByPrimaryKey" parameterType="java.lang.Integer">
+  	DELETE FROM t_user WHERE id=#{id}
+  </delete>
   
 </mapper>

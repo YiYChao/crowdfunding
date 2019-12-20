@@ -52,4 +52,34 @@ public interface TUserMapper {
 	 * @date: 2019年12月19日 下午8:37:10
 	 */
 	List<TUser> queryConditonList(@Param("begin")Integer begin, @Param("size")Integer pageSize, @Param("condition")String condition);
+
+	/**
+	 * @Title: selectByPrimaryKey
+	 * @Description: 通过主键查询用户信息
+	 * @param: id 主键
+	 * @return: TUser 用户实体
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午3:18:57
+	 */
+	TUser selectByPrimaryKey(Integer id);
+
+	/**
+	 * @Title: updateUserByPrimaryKey
+	 * @Description: 通过主键更新用户信息
+	 * @param: user 用书实体
+	 * @return: int 更新的记录条数
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午3:35:41
+	 */
+	int updateUserByPrimaryKey(TUser user);
+
+	/**
+	 * @Title: deleteUserByPrimaryKey
+	 * @Description: 根据主键删除用户记录
+	 * @param: id 主键
+	 * @return: int 影响的记录数
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午4:13:20
+	 */
+	int deleteUserByPrimaryKey(Integer id);
 }

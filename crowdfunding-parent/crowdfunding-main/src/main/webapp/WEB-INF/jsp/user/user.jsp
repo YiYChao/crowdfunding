@@ -43,13 +43,13 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-success dropdown-toggle"
                                 data-toggle="dropdown">
-                                <i class="glyphicon glyphicon-user"></i> 张三 <span class="caret"></span>
+                                <i class="glyphicon glyphicon-user"></i>${sessionScope.user.username}<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
                                 <li class="divider"></li>
-                                <li><a href="index.html"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+                                <li><a href="${APP_PATH}/logout.do"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
                             </ul>
                         </div>
                     </li>
@@ -153,10 +153,10 @@
                             </div>
                             <button type="button" class="btn btn-warning" id="queryBtn"><i class="glyphicon glyphicon-search"></i> 查询</button>
                         </form>
-                        <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
+                        <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"  id="batchDelete"><i
                                 class=" glyphicon glyphicon-remove"></i> 删除</button>
                         <button type="button" class="btn btn-primary" style="float:right;"
-                            onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                            onclick="window.location.href='${APP_PATH}/user/add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                         <br>
                         <hr style="clear:both;">
                         <div class="table-responsive">
@@ -164,7 +164,7 @@
                                 <thead>
                                     <tr>
                                         <th width="30">#</th>
-                                        <th width="30"><input type="checkbox"></th>
+                                        <th width="30"><input type="checkbox" id="checkAll"></th>
                                         <th>账号</th>
                                         <th>名称</th>
                                         <th>邮箱地址</th>
@@ -233,9 +233,6 @@
     <script src="${APP_PATH}/script/docs.min.js"></script>
     <script src="${APP_PATH}/jquery/layer/layer.js"></script>
     <script type="text/javascript">
-    	function changePage(page){
-    		queryUserPage(page);
-    	}
         $(function () {
             $(".list-group-item").click(function () {
                 if ($(this).find("ul")) {
@@ -253,13 +250,14 @@
         $("tbody .btn-success").click(function () {
             window.location.href = "assignRole.html";
         });
-        $("tbody .btn-primary").click(function () {
-            window.location.href = "edit.html";
-        });
         var pageParams = {
     			"currentPage" : 1,
     			"pageSizes" : 10
     		};
+        function changePage(page){
+    		pageParams.currentPage = page;
+    		queryUserPage(page);
+    	}
         function queryUserPage(page){
         	var loadingIndex = -1;
         	pageParams.currentPage = page;	// 设置当前页
@@ -279,14 +277,14 @@
         				$.each(pageContent.resultList, function(i,rst){
         					content+='<tr>';
         					content+='<td>'+(i+1)+'</td>';
-        					content+='<td><input type="checkbox"></td>';
+        					content+='<td><input type="checkbox" name="'+ rst.id +'"></td>';
         					content+='<td>'+rst.loginacct+'</td>';
         					content+='<td>'+rst.username+'</td>';
         					content+='<td>'+rst.email+'</td>';
         					content+='<td>';
         					content+='<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-        					content+='<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-        					content+='<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+        					content+='<button type="button" class="btn btn-primary btn-xs" onclick="editUser('+ rst.id +')"><i class=" glyphicon glyphicon-pencil"></i></button>';
+        					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteUser('+ rst.id +',\''+rst.loginacct +'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
         					content+='</td>';
         					content+='</tr>';
         				});
@@ -328,7 +326,72 @@
        		pageParams.condition = $.trim(condition);
        		queryUserPage(1);
         });
+        function editUser(uid){
+        	window.location.href = "${APP_PATH}/user/edit.html?id="+ uid;
+        };
+        function deleteUser(uid,loginacct){
+        	layer.confirm("确认要删除["+loginacct+"]用户吗？",  {icon: 3, title:'提示'}, function(cindex){
+			    layer.close(cindex);
+	        	$.ajax({
+	        		type : "POST",
+	        		url : "${APP_PATH}/user/doDelete.do",
+	        		data : {"id" : uid},
+	        		beforeSend : function(){
+	        			return true;
+	        		},
+	        		success : function(result){
+	        			console.log(result);
+	        			if(result.success){
+	        				layer.msg("批量删除成功", {time:2000});
+	        				queryUserPage(pageParams.currentPage);
+	        			}else{
+	        				layer.msg("批量删除用户失败！", {time:2000});
+	        			}
+	        		}
+	        	});
+			}, function(cindex){
+			    layer.close(cindex);
+			});
+        };
+        // “全选”复选框
+        $("#checkAll").click(function(){
+        	var res = this.checked;
+        	// $("tbody tr input[type='checkbox']").attr("checked", res); // attr方法只能点一次
+        	$("tbody tr input[type='checkbox']").prop("checked", res);
+        });
         
+        $("#batchDelete").click(function(){
+        	var boxChecked = $("tbody input:checked"); //获取所有选中的复选框
+        	if(boxChecked.length <= 0){
+        		layer.mg("请选择要删除的用户！", {time:1000,icon:5,shift:6});
+        	}else{
+        		layer.confirm("确认要删除这"+ boxChecked.length +"个用户吗？",  {icon: 3, title:'提示'}, function(cindex){
+    			    layer.close(cindex);
+    			    var target = "";
+    			    for(var i = 0; i < boxChecked.length; i++){
+    			    	target += (i == 0) ? ("ids=" + boxChecked[i].name):("&ids=" + boxChecked[i].name) ;
+    			    }
+    	        	$.ajax({
+    	        		type : "POST",
+    	        		url : "${APP_PATH}/user/batchDelete.do",
+    	        		data : target,
+    	        		beforeSend : function(){
+    	        			return true;
+    	        		},
+    	        		success : function(result){
+    	        			console.log(result);
+    	        			if(result.success){
+    	        				queryUserPage(pageParams.currentPage);
+    	        			}else{
+    	        				layer.msg("批量删除用户失败！", {time:2000});
+    	        			}
+    	        		}
+    	        	});
+    			}, function(cindex){
+    			    layer.close(cindex);
+    			});
+        	}
+        });
     </script>
 </body>
 

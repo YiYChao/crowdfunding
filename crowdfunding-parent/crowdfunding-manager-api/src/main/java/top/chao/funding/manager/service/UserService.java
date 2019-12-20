@@ -22,11 +22,11 @@ public interface UserService {
 	 * @Title: saveUser
 	 * @Description: 保存用户
 	 * @param: user 用户实体对象
-	 * @return: void 无
+	 * @return: int 成功记录数
 	 * @throws: 无
 	 * @date: 2019年12月19日 下午2:13:05
 	 */
-	void saveUser(TUser user);
+	int saveUser(TUser user);
 
 	/**
 	 * @Title: queryConditionPage
@@ -37,5 +37,45 @@ public interface UserService {
 	 * @date: 2019年12月19日 下午8:18:52
 	 */
 	PageResult<TUser> queryConditionPage(Map<String, Object> map);
+
+	/**
+	 * @Title: queryUserByPrimaryKey
+	 * @Description: 通过Id主键查询用户
+	 * @param: id 主键
+	 * @return: TUser 用户实体
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午3:17:08
+	 */
+	TUser queryUserByPrimaryKey(Integer id);
+
+	/**
+	 * @Title: updateUserByPrimaryKey
+	 * @Description: 通过主键更新用户信息
+	 * @param: user 用户实体
+	 * @return: int 更新记录条数
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午3:34:17
+	 */
+	int updateUserByPrimaryKey(TUser user);
+
+	/**
+	 * @Title: deleteUserByPrimaryKey
+	 * @Description: 根据主键删除用户
+	 * @param: id 主键
+	 * @return: int 删除的记录数
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午4:10:50
+	 */
+	int deleteUserByPrimaryKey(Integer id);
+
+	/**
+	 * @Title: deleteUserBatchByPrimaryKey
+	 * @Description: 批量删除用户
+	 * @param: id 主键数组
+	 * @return: int 删除的记录数
+	 * @throws: 无
+	 * @date: 2019年12月20日 下午7:02:57
+	 */
+	int deleteUserBatchByPrimaryKey(Integer[] ids);
 
 }
