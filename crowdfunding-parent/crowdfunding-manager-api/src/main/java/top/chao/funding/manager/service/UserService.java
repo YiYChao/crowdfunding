@@ -1,5 +1,6 @@
 package top.chao.funding.manager.service;
 
+import java.util.List;
 import java.util.Map;
 
 import top.chao.funding.bean.TUser;
@@ -77,5 +78,4 @@ public interface UserService {
 	 * @date: 2019年12月20日 下午7:02:57
 	 */
 	int deleteUserBatchByPrimaryKey(Integer[] ids);
-
 }

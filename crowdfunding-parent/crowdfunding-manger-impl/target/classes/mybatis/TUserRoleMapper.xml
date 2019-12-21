@@ -150,4 +150,21 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  <select id="queryUserRoles" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	SELECT roleid FROM t_user_role WHERE userid=#{userid}
+  </select>
+  <insert id="saveUserRole">
+  	<foreach collection="ids" item="roleid" separator=";">
+  		INSERT INTO t_user_role (userid, roleid) VALUES (#{userid}, #{roleid})
+  	</foreach>
+  </insert>
+  <delete id="deleteUserRole">
+  	DELETE FROM t_user_role WHERE userid=#{userid} AND roleid IN
+  	<foreach collection="ids" item="roleid" open="(" separator="," close=")">
+  		#{roleid}
+  	</foreach>
+  </delete>
+  
+  
 </mapper>

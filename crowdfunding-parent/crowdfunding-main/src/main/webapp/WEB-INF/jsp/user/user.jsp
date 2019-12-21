@@ -166,7 +166,7 @@
         					content+='<td>'+rst.username+'</td>';
         					content+='<td>'+rst.email+'</td>';
         					content+='<td>';
-        					content+='<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+        					content+='<button type="button" class="btn btn-success btn-xs" onclick="window.location.href=\'${APP_PATH}/role/assignRole.html?id='+ rst.id +'\'"><i class=" glyphicon glyphicon-check"></i></button>';
         					content+='<button type="button" class="btn btn-primary btn-xs" onclick="editUser('+ rst.id +')"><i class=" glyphicon glyphicon-pencil"></i></button>';
         					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteUser('+ rst.id +',\''+rst.loginacct +'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
         					content+='</td>';

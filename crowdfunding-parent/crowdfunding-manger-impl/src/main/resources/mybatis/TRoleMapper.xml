@@ -137,4 +137,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  <select id="queryRoleAll" resultType="top.chao.funding.bean.TRole">
+	SELECT id,name FROM t_role where 1=1
+  </select>
 </mapper>

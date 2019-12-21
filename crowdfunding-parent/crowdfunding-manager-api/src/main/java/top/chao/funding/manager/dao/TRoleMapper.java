@@ -19,4 +19,14 @@ public interface TRoleMapper {
     int updateByExampleSelective(@Param("record") TRole record, @Param("example") TRoleExample example);
 
     int updateByExample(@Param("record") TRole record, @Param("example") TRoleExample example);
+
+    /**
+     * @Title: queryRoleAll
+     * @Description: 查询所有角色信息
+     * @return: List<TRole> 角色列表
+     * @throws: 无
+     * @date: 2019年12月21日 下午3:02:40
+     */
+	List<TRole> queryRoleAll();
+
 }

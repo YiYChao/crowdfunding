@@ -27,6 +27,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	
+	
 	@RequestMapping("/index")
 	public String toUserIndex() {
 		return "/user/user";
@@ -61,23 +63,6 @@ public class UserController {
 		}
 		return result;
 	}
-	
-//	@RequestMapping("/list")
-//	@ResponseBody
-//	public AjaxResult getList(@RequestParam(value="currentPage", required=false, defaultValue="1") Integer currentPage,
-//			@RequestParam(value="pageSizes", required=false, defaultValue="10") Integer pageSizes) {
-//		AjaxResult result = new AjaxResult();
-//		try {
-//			result.setSuccess(true);	// 设置查询状态
-//			PageResult<TUser> page = userService.queryPage(currentPage,pageSizes);	// 进行查询
-//			result.setPageResult(page);	// 设置查询结果
-//		} catch (Exception e) {
-//			result.setSuccess(false);	// 设置查询状态
-//			result.setMessage("获取用户信息失败！");	// 设置失败信息
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
 	
 	@RequestMapping("add")
 	public String toAdd() {
