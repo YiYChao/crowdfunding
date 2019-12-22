@@ -1,5 +1,8 @@
 package top.chao.funding.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TPermission {
     private Integer id;
 
@@ -10,7 +13,11 @@ public class TPermission {
     private String icon;
 
     private String url;
+    
+    private boolean open = true;
 
+    private List<TPermission> children = new ArrayList<TPermission>();
+    
     public Integer getId() {
         return id;
     }
@@ -50,4 +57,21 @@ public class TPermission {
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
     }
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(boolean open) {
+		this.open = open;
+	}
+
+	public List<TPermission> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<TPermission> children) {
+		this.children = children;
+	}
+    
 }

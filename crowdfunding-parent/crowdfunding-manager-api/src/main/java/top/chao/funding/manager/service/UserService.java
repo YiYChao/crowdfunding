@@ -1,6 +1,5 @@
 package top.chao.funding.manager.service;
 
-import java.util.List;
 import java.util.Map;
 
 import top.chao.funding.bean.TUser;

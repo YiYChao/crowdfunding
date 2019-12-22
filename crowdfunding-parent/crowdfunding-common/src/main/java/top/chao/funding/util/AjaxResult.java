@@ -10,6 +10,7 @@ public class AjaxResult {
 	private boolean success;	// 是否成功
 	private String message;		// 结果信息
 	private PageResult<?> pageResult;
+	private Object obj;
 	
 	public boolean isSuccess() {
 		return success;
@@ -30,6 +31,10 @@ public class AjaxResult {
 	public void setPageResult(PageResult<?> pageResult) {
 		this.pageResult = pageResult;
 	}
-	
-	
+	public Object getObj() {
+		return obj;
+	}
+	public void setObj(Object obj) {
+		this.obj = obj;
+	}
 }
