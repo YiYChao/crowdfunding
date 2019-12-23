@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -40,13 +41,13 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <input class="form-control has-success" type="text" placeholder="请输入查询条件" id="roleCondition">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button type="button" class="btn btn-warning" id="queryBtn"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
-<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" id="batchDelete"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/role/add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
@@ -54,118 +55,19 @@
               <thead>
                 <tr >
                   <th width="30">#</th>
-				  <th width="30"><input type="checkbox"></th>
+				  <th width="30"><input type="checkbox" id="checkAll"></th>
                   <th>名称</th>
                   <th width="100">操作</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-				  <td><input type="checkbox"></td>
-                  <td>PM - 项目经理</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-				  <td><input type="checkbox"></td>
-                  <td>SE - 软件工程师</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-				  <td><input type="checkbox"></td>
-                  <td>PG - 程序员</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-				  <td><input type="checkbox"></td>
-                  <td>TL - 组长</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-				  <td><input type="checkbox"></td>
-                  <td>GL - 组长</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-				  <td><input type="checkbox"></td>
-                  <td>QA - 品质保证</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>7</td>
-				  <td><input type="checkbox"></td>
-                  <td>QC - 品质控制</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>8</td>
-				  <td><input type="checkbox"></td>
-                  <td>SA - 软件架构师</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
-                <tr>
-                  <td>8</td>
-				  <td><input type="checkbox"></td>
-                  <td>CMO / CMS - 配置管理员</td>
-                  <td>
-				      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-				      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-					  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-				  </td>
-                </tr>
               </tbody>
 			  <tfoot>
-			     <tr >
-				     <td colspan="6" align="center">
-						<ul class="pagination">
-								<li class="disabled"><a href="#">上一页</a></li>
-								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页</a></li>
-							 </ul>
-					 </td>
-				 </tr>
-
+			    <tr>
+                    <td colspan="6" align="center">
+                        <ul class="pagination"></ul>
+                    </td>
+                 </tr>
 			  </tfoot>
             </table>
           </div>
@@ -178,6 +80,7 @@
     <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH}/script/docs.min.js"></script>
+	<script src="${APP_PATH}/jquery/layer/layer.js"></script>
 	<script src="${APP_PATH}/script/common.js"></script>
         <script type="text/javascript">
             $(function () {
@@ -192,10 +95,152 @@
 					}
 				});
 			    setLocation();
+			    queryRolePage(1);
             });
             
             $("tbody .btn-success").click(function(){
-                window.location.href = "assignPermission.html";
+                window.location.href = "assignpermission.html";
+            });
+            var pageParams = {
+        			"currentPage" : 1,
+        			"pageSizes" : 3
+        		};
+            function changePage(page){
+        		pageParams.currentPage = page;
+        		queryRolePage(page);
+        	}
+            function queryRolePage(page){
+            	var loadingIndex = -1;
+            	pageParams.currentPage = page;	// 设置当前页
+            	$.ajax({
+            		type : "POST",
+            		url : "${APP_PATH}/role/list.do",
+            		data : pageParams,
+            		beforeSend : function(){
+            			loadingIndex = layer.load(2, {time:1000});
+            			return true;
+            		},
+            		success : function(data){
+            			//layer.close(loadingIndex);
+            			if(data.success){
+            				var pageContent = data.pageResult;
+            				var content = '';
+            				$.each(pageContent.resultList, function(i,rst){
+            					content+='<tr>';
+            					content+='<td>'+(i+1)+'</td>';
+            					content+='<td><input type="checkbox" name="'+ rst.id +'"></td>';
+            					content+='<td>'+rst.name+'</td>';
+            					content+='<td>';
+            					content+='<button type="button" class="btn btn-success btn-xs" onclick="window.location.href=\'${APP_PATH}/role/assignRole.html?id='+ rst.id +'\'"><i class=" glyphicon glyphicon-check"></i></button>';
+            					content+='<button type="button" class="btn btn-primary btn-xs" onclick="editUser('+ rst.id +')"><i class=" glyphicon glyphicon-pencil"></i></button>';
+            					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteUser('+ rst.id +',\''+rst.loginacct +'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
+            					content+='</td>';
+            					content+='</tr>';
+            				});
+            				$("tbody").html(content);
+            				var pageBar = '';
+            				/* 拼接上一页 */
+            				if(pageContent.currentPage == 1){
+            					pageBar+='<li class="disabled"><a href="#">上一页</a></li>';
+            				}else{
+            					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage - 1)+')">上一页</a></li>';
+            				}
+            				/* 拼接中间页码 */
+            				for(var i = 1; i <= pageContent.totalPages; i++){
+            					if(i == pageContent.currentPage){
+            						pageBar+='<li class="active"><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
+            					}else{
+            						pageBar+='<li><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
+            					}
+            				}
+            				/* 拼接下一页 */
+            				if(pageContent.currentPage == pageContent.totalPages){
+            					pageBar+='<li class="disabled"><a href="#">下一页</a></li>';
+            				}else{
+            					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage + 1)+')">下一页</a></li>';
+            				}
+            				$(".pagination").html(pageBar);
+            			}else{
+            				layer.mg(data.message, {time:1000,icon:5,shift:6});
+            			}
+            		},
+            		errror : function(){
+            			layer.mg("加载数据失败！", {time:1000,icon:5,shift:6});
+            		}
+
+            	});
+            };
+            $("#queryBtn").click(function(){
+            	var condition = $("#roleCondition").val();
+           		pageParams.condition = $.trim(condition);
+           		console.log(pageParams.condition);
+           		queryRolePage(1);
+            });
+            function editUser(uid){
+            	window.location.href = "${APP_PATH}/role/edit.html?id="+ uid;
+            };
+            function deleteUser(uid,loginacct){
+            	layer.confirm("确认要删除["+loginacct+"]角色吗？",  {icon: 3, title:'提示'}, function(cindex){
+    			    layer.close(cindex);
+    	        	$.ajax({
+    	        		type : "POST",
+    	        		url : "${APP_PATH}/role/doDelete.do",
+    	        		data : {"id" : uid},
+    	        		beforeSend : function(){
+    	        			return true;
+    	        		},
+    	        		success : function(result){
+    	        			console.log(result);
+    	        			if(result.success){
+    	        				layer.msg("批量删除成功", {time:2000});
+    	        				queryRolePage(pageParams.currentPage);
+    	        			}else{
+    	        				layer.msg("批量删除角色失败！", {time:2000});
+    	        			}
+    	        		}
+    	        	});
+    			}, function(cindex){
+    			    layer.close(cindex);
+    			});
+            };
+            // “全选”复选框
+            $("#checkAll").click(function(){
+            	var res = this.checked;
+            	// $("tbody tr input[type='checkbox']").attr("checked", res); // attr方法只能点一次
+            	$("tbody tr input[type='checkbox']").prop("checked", res);
+            });
+            
+            $("#batchDelete").click(function(){
+            	var boxChecked = $("tbody input:checked"); //获取所有选中的复选框
+            	if(boxChecked.length <= 0){
+            		layer.mg("请选择要删除的角色！", {time:1000,icon:5,shift:6});
+            	}else{
+            		layer.confirm("确认要删除这"+ boxChecked.length +"个角色吗？",  {icon: 3, title:'提示'}, function(cindex){
+        			    layer.close(cindex);
+        			    var target = "";
+        			    for(var i = 0; i < boxChecked.length; i++){
+        			    	target += (i == 0) ? ("ids=" + boxChecked[i].name):("&ids=" + boxChecked[i].name) ;
+        			    }
+        	        	$.ajax({
+        	        		type : "POST",
+        	        		url : "${APP_PATH}/role/batchDelete.do",
+        	        		data : target,
+        	        		beforeSend : function(){
+        	        			return true;
+        	        		},
+        	        		success : function(result){
+        	        			console.log(result);
+        	        			if(result.success){
+        	        				queryRolePage(pageParams.currentPage);
+        	        			}else{
+        	        				layer.msg("批量删除角色失败！", {time:2000});
+        	        			}
+        	        		}
+        	        	});
+        			}, function(cindex){
+        			    layer.close(cindex);
+        			});
+            	}
             });
         </script>
   </body>

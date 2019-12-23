@@ -78,7 +78,7 @@
                                     <tr>
                                         <td colspan="6" align="center">
                                             <ul class="pagination">
-	                                            <c:if test="${page.currentPage == 1}">
+	                                           <%--  <c:if test="${page.currentPage == 1}">
 	                                            	<li class="disabled"><a href="#">上一页</a></li>
 	                                            </c:if>
 	                                            <c:if test="${page.currentPage != 1}">
@@ -96,7 +96,7 @@
 	                                            </c:if>
 	                                            <c:if test="${page.currentPage < page.totalPages}">
 	                                            	<li><a href="#" onclick="changePage(${page.currentPage + 1})">下一页</a></li>
-	                                            </c:if>
+	                                            </c:if> --%>
                                             </ul>
                                         </td>
                                     </tr>
@@ -196,7 +196,7 @@
         				}
         				$(".pagination").html(pageBar);
         			}else{
-        				layer.mg(result.message, {time:1000,icon:5,shift:6});
+        				layer.mg(data.message, {time:1000,icon:5,shift:6});
         			}
         		},
         		errror : function(){
