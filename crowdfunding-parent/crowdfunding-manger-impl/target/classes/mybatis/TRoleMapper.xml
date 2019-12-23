@@ -141,4 +141,26 @@
   <select id="queryRoleAll" resultType="top.chao.funding.bean.TRole">
 	SELECT id,name FROM t_role where 1=1
   </select>
+  <select id="queryList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	SELECT id, name FROM t_role LIMIT #{begin},#{size}
+  </select>
+  <select id="queryConditionTotal" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT count(id) FROM t_role WHERE  name LIKE #{condition}
+  </select>
+  <select id="queryConditonList" resultMap="BaseResultMap">
+  	SELECT id, name FROM t_role WHERE name LIKE #{condition} LIMIT #{begin},#{size}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  	SELECT id, name FROM t_role WHERE  id=#{id}
+  </select>
+  <update id="updateRoleByPrimaryKey" parameterType="tRole">
+    UPDATE t_role SET name = #{name} WHERE id = #{id}
+  </update>
+  <delete id="deleteRoleByPrimaryKey" parameterType="java.lang.Integer">
+  	DELETE FROM t_role WHERE id=#{id}
+  </delete>
+  
+  
+  
+  
 </mapper>
