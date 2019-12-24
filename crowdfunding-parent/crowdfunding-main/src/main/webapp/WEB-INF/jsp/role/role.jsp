@@ -64,10 +64,12 @@
               </tbody>
 			  <tfoot>
 			    <tr>
-                    <td colspan="6" align="center">
-                        <ul class="pagination"></ul>
-                    </td>
-                 </tr>
+                       <td colspan="6" align="center">
+                           <ul class="pagination">
+                            
+                           </ul>
+                       </td>
+                   </tr>
 			  </tfoot>
             </table>
           </div>
@@ -109,7 +111,7 @@
         		pageParams.currentPage = page;
         		queryRolePage(page);
         	}
-            function queryRolePage(page){
+            function queryUserPage(page){
             	var loadingIndex = -1;
             	pageParams.currentPage = page;	// 设置当前页
             	$.ajax({
@@ -173,7 +175,6 @@
             $("#queryBtn").click(function(){
             	var condition = $("#roleCondition").val();
            		pageParams.condition = $.trim(condition);
-           		console.log(pageParams.condition);
            		queryRolePage(1);
             });
             function editUser(uid){
