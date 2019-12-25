@@ -14,7 +14,9 @@ public class TPermission {
 
     private String url;
     
-    private boolean open = true;
+    private boolean open = true;		// 默认展开
+    
+    private boolean checked = false;	// 默认未被选中
 
     private List<TPermission> children = new ArrayList<TPermission>();
     
@@ -72,6 +74,14 @@ public class TPermission {
 
 	public void setChildren(List<TPermission> children) {
 		this.children = children;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
     
 }

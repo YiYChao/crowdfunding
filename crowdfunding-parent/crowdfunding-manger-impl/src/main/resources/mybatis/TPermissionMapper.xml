@@ -185,5 +185,19 @@
   <select id="queryPermissionById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	SELECT id, pid, name, icon, url FROM t_permission WHERE 1=1 AND id=#{id}
   </select>
+  <select id="queryPermissionIdsByRoleId" parameterType="int" resultType="int">
+  	SELECT permissionid FROM t_role_permission WHERE roleid=#{roleId}
+  </select>
+  <insert id="saveRolePermissions">
+  	<foreach collection="newPids" separator=";" item="pid">
+  		INSERT INTO t_role_permission(roleid,permissionid) VALUES (#{roleId},#{pid})
+  	</foreach>
+  </insert>
+  <delete id="deleteRolePermissions">
+  	DELETE FROM t_role_permission WHERE roleid=#{roleId} AND permissionid IN 
+  	<foreach collection="oldPids" open="(" separator="," close=")" item="pid">
+  		#{pid}
+  	</foreach>
+  </delete>
   
 </mapper>

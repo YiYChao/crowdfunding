@@ -95,11 +95,11 @@
             		return true;
             	},
             	success : function(result){
-            		if(result.success){
-            			var treeData = result.obj;
-            			$.fn.zTree.init($("#treeDemo"), setting, treeData);
+            		if(result){
+            			//var treeData = result.obj;
+            			$.fn.zTree.init($("#treeDemo"), setting, result);
             		}else{
-            			alert(result.message);
+            			layer.msg("加载数据失败！", {time:2000});
             		}
             	},
             	error : function(){

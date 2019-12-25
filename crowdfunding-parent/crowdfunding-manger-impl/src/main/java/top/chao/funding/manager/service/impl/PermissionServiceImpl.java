@@ -51,4 +51,28 @@ public class PermissionServiceImpl implements PermissionService{
 		return tPermissionMapper.queryPermissionById(id);
 	}
 
+	@Override
+	public List<Integer> queryPermissionIdsByRoleId(Integer roleId) {
+		return tPermissionMapper.queryPermissionIdsByRoleId(roleId);
+	}
+
+	@Override
+	public void saveRolePermissions(Integer roleId, List<Integer> newPids) {
+		if(newPids.size() == 0) {
+			return;
+		}else {
+			tPermissionMapper.saveRolePermissions(roleId, newPids);
+		}
+		
+	}
+
+	@Override
+	public void deleteRolePermissions(Integer roleId, List<Integer> oldPids) {
+		if(oldPids.size() == 0) {
+			return;
+		}else {
+			tPermissionMapper.deleteRolePermissions(roleId, oldPids);
+		}
+		
+	}
 }

@@ -111,7 +111,7 @@
         		pageParams.currentPage = page;
         		queryRolePage(page);
         	}
-            function queryUserPage(page){
+            function queryRolePage(page){
             	var loadingIndex = -1;
             	pageParams.currentPage = page;	// 设置当前页
             	$.ajax({
@@ -133,7 +133,7 @@
             					content+='<td><input type="checkbox" name="'+ rst.id +'"></td>';
             					content+='<td>'+rst.name+'</td>';
             					content+='<td>';
-            					content+='<button type="button" class="btn btn-success btn-xs" onclick="window.location.href=\'${APP_PATH}/role/assignRole.html?id='+ rst.id +'\'"><i class=" glyphicon glyphicon-check"></i></button>';
+            					content+='<button type="button" class="btn btn-success btn-xs" onclick="window.location.href=\'${APP_PATH}/role/assignpermission.html?id='+ rst.id +'\'"><i class=" glyphicon glyphicon-check"></i></button>';
             					content+='<button type="button" class="btn btn-primary btn-xs" onclick="editUser('+ rst.id +')"><i class=" glyphicon glyphicon-pencil"></i></button>';
             					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteUser('+ rst.id +',\''+rst.loginacct +'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
             					content+='</td>';

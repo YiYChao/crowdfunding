@@ -35,7 +35,7 @@
 			<div class="panel panel-default">
               <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i> 权限分配列表<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 			  <div class="panel-body">
-                  <button class="btn btn-success">分配许可</button>
+                  <button class="btn btn-success" id="assignPermission">分配许可</button>
                   <br><br>
                   <ul id="treeDemo" class="ztree"></ul>
 			  </div>
@@ -92,13 +92,13 @@
 						addDiyDom: function(treeId, treeNode){
 							var icoObj = $("#" + treeNode.tId + "_ico"); // tId = permissionTree_1, $("#permissionTree_1_ico")
 							if ( treeNode.icon ) {
-								icoObj.removeClass("button ico_docu ico_open").addClass("fa fa-fw " + treeNode.icon).css("background","");
+								icoObj.removeClass("button ico_docu ico_open").addClass(treeNode.icon).css("background","");
 							}
 						},
 					},
 					async: {
 						enable: true,
-						url:"tree.txt",
+						url:"${APP_PATH}/permission/queryAll.do?roleId=${param.id}",
 						autoParam:["id", "name=n", "level=lv"]
 					},
 					callback: {
@@ -107,21 +107,32 @@
 						}
 					}
 				};
-            $.ajax({
-            	type : "POST",
-            	url : "${APP_PATH}/permission/queryAll.do",
-            	beforeSend : function(){
-            		return true;
-            	},
-            	success : function(result){
-            		if(result.success){
-            			var treeData = result.obj;
-            			$.fn.zTree.init($("#treeDemo"), setting, treeData);
-            		}else{
-            			alert(result.message);
-            		}
-            	},
-            	error : function(){
+            $.fn.zTree.init($("#treeDemo"), setting);
+            $("#assignPermission").click(function(){
+            	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            	var nodes = treeObj.getCheckedNodes(true); // 获取被选中的节点
+       
+            	if(nodes.length==0){
+            		layer.msg("请选择许可进行分配", {time:1000, icon:5, shift:6});
+            	}else{
+            		
+            		var target = "roleId=${param.id}";
+    			    for(var i = 0; i < nodes.length; i++){
+    			    	target += ("&ids=" + nodes[i].id) ;
+    			    }
+            		
+            		$.ajax({
+            			url : "${APP_PATH}/role/doAssignPermission.do",
+            			type : "POST",
+            			data : target ,
+            			success : function(result){
+            				if(result.success){ //分配成功不需要刷新页面
+            					layer.msg("分配许可成功", {time:1000, icon:6});
+            				}else{
+            					layer.msg("分配许可失败", {time:1000, icon:5, shift:6});
+            				}
+            			}
+            		});
             		
             	}
             });

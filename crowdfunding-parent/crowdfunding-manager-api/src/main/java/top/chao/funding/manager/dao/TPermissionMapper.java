@@ -58,4 +58,36 @@ public interface TPermissionMapper {
 	 * @date: 2019年12月22日 下午2:42:03
 	 */
 	TPermission queryPermissionById(Integer id);
+
+	/**
+	 * @Title: queryPermissionIdsByRoleId
+	 * @Description: 通过角色主键查询许可主键
+	 * @param: roleId 角色主键
+	 * @return: List<Integer> 许可主键id列表
+	 * @throws: 无
+	 * @date: 2019年12月25日 下午7:16:08
+	 */
+	List<Integer> queryPermissionIdsByRoleId(Integer roleId);
+
+	/**
+	 * @Title: saveRolePermissions
+	 * @Description: 保存角色许可
+	 * @param: roleId 角色id
+	 * @param: newPids 许可id列表
+	 * @return: void 空
+	 * @throws: 无
+	 * @date: 2019年12月25日 下午8:15:49
+	 */
+	void saveRolePermissions(@Param("roleId")Integer roleId,@Param("newPids")List<Integer> newPids);
+
+	/**
+	 * @Title: deleteRolePermissions
+	 * @Description: 删除角色许可
+	 * @param: roleId 角色id
+	 * @param: oldPids 许可id列表
+	 * @return: void 空
+	 * @throws: 无
+	 * @date: 2019年12月25日 下午8:16:27
+	 */
+	void deleteRolePermissions(@Param("roleId")Integer roleId,@Param("oldPids")List<Integer> oldPids);
 }

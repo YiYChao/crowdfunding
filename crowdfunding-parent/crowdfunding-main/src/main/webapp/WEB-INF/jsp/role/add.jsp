@@ -41,7 +41,7 @@
 				<form role="form" id="roleForm">
 				  <div class="form-group">
 					<label for="fname">角色名称</label>
-					<input type="text" class="form-control" id="fname" placeholder="请输入登陆账号">
+					<input type="text" class="form-control" id="fname" placeholder="请输入角色名称">
 				  </div>
 				  <button type="button" class="btn btn-success" id="addBtn"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 				  <button type="button" class="btn btn-danger" id="resetBtn"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
@@ -109,7 +109,6 @@
             			return true;
             		},
             		success : function(result){
-            			console.log(result);
             			if(result.success){
             				window.location.href="${APP_PATH}/role/index.html"
             			}else{

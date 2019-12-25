@@ -1,6 +1,7 @@
 package top.chao.funding.manager.cotroller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.chao.funding.bean.TRole;
+import top.chao.funding.manager.service.PermissionService;
 import top.chao.funding.manager.service.RoleService;
 import top.chao.funding.util.AjaxResult;
 import top.chao.funding.util.PageResult;
@@ -28,6 +30,8 @@ public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private PermissionService permissionService;
 	
 	@RequestMapping(value="/index")
 	public String toRole() {
@@ -196,9 +200,36 @@ public class RoleController {
 		return result;
 	}
 	
-	public String toRolePermission(Integer roleId) {
+	
+	@RequestMapping(value="assignpermission")
+	public String toRolePermission() {
 		return "/role/assignpermission";
 	}
+	
+	@RequestMapping(value="doAssignPermission")
+	@ResponseBody
+	public AjaxResult doSssignPermission(Integer[] ids, Integer roleId) {
+		AjaxResult result = new AjaxResult();
+		try {
+			List<Integer> newPids = new ArrayList<Integer>(Arrays.asList(ids));	// 修改后的列表
+			List<Integer> oldPids = permissionService.queryPermissionIdsByRoleId(roleId);
+			if(oldPids.size() > 0) {
+				List<Integer> tmp = new ArrayList<Integer>(oldPids);
+				tmp.retainAll(newPids);		// 计算两个列表的交集
+				oldPids.removeAll(tmp);		// 找出去除掉的主键
+				newPids.removeAll(tmp);		// 找出新增的许可主键
+				permissionService.deleteRolePermissions(roleId,oldPids);
+			}
+			permissionService.saveRolePermissions(roleId,newPids);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("分配许可失败！");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	
 	
 	

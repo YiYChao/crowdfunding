@@ -1,5 +1,6 @@
 package top.chao.funding.manager.cotroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +34,25 @@ public class PermissionController {
 	
 	@RequestMapping(value="/queryAll")
 	@ResponseBody
-	public AjaxResult queryAllPermission() {
+	public TPermission queryAllPermission(Integer roleId) {
 		AjaxResult result = new AjaxResult();
 		try {
 			List<TPermission> list = permissionService.queryAll();
+			
+			// 角色所拥有的许可id列表
+			List<Integer> pids = new ArrayList<Integer>();
+			if(roleId != null) {
+				pids = permissionService.queryPermissionIdsByRoleId(roleId);
+			}
 			
 			Map<Integer,TPermission> map = new HashMap<Integer,TPermission>();
 			
 			for(TPermission permission : list) {
 				map.put(permission.getId(), permission);
+				// 查询角色是否拥有该许可
+				if(pids.contains(permission.getId())) {
+					permission.setChecked(true);
+				}
 			}
 			for (TPermission permission : list) {
 				//假设为子菜单
@@ -58,7 +69,7 @@ public class PermissionController {
 			e.printStackTrace();
 		}
 		
-		return result;
+		return (TPermission) result.getObj();
 	}
 	
 	@RequestMapping(value="/add")

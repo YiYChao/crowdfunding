@@ -116,7 +116,6 @@
             			return true;
             		},
             		success : function(result){
-            			console.log(result);
             			if(result.success){
             				window.location.href="${APP_PATH}/role/index.html"
             			}else{
