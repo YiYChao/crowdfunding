@@ -57,15 +57,15 @@ public class RoleController {
 		}
 		map.put("leftRoleList", leftRoleList);
 		map.put("rightRoleList", rightRoleList);
-		return "Role/assignrole";
+		return "user/assignrole";
 	}
 	
 	
 	@RequestMapping(value="/grantRole")
 	@ResponseBody
-	public AjaxResult grantRole(Integer Roleid, DataVO data) {
+	public AjaxResult grantRole(Integer userid, DataVO data) {
 		AjaxResult result = new AjaxResult();
-		int res = roleService.saveUserRole(Roleid, data.getIds());
+		int res = roleService.saveUserRole(userid, data.getIds());
 		if(res >= 1) {
 			result.setSuccess(true);
 		}else {
@@ -78,9 +78,9 @@ public class RoleController {
 	
 	@RequestMapping(value="/revokeRole")
 	@ResponseBody
-	public AjaxResult revokeRole(Integer Roleid, DataVO data) {
+	public AjaxResult revokeRole(Integer userid, DataVO data) {
 		AjaxResult result = new AjaxResult();
-		int res = roleService.deleteUserRole(Roleid, data.getIds());
+		int res = roleService.deleteUserRole(userid, data.getIds());
 		if(res >= 1) {
 			result.setSuccess(true);
 		}else {

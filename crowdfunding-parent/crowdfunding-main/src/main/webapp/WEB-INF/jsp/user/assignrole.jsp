@@ -110,7 +110,7 @@
 				});
             });
             var postData = {
-            		"userid" : "${param.id}",
+            		"userid" : "${param.userid}",
             };
             
             // 授予权限
