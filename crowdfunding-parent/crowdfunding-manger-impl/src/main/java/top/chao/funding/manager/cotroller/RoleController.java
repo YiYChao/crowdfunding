@@ -39,12 +39,12 @@ public class RoleController {
 	}
 	
 	@RequestMapping(value="/assignRole")
-	public String assignRole(Integer id,Map<String, List<TRole>> map) {
+	public String assignRole(Integer userid,Map<String, List<TRole>> map) {
 		List<TRole> leftRoleList = new ArrayList<TRole>();
 		List<TRole> rightRoleList = new ArrayList<TRole>();
 		
 		List<TRole> roleAll = roleService.queryRoleAll();
-		List<Integer> roleids = roleService.queryUserRoles(id);
+		List<Integer> roleids = roleService.queryUserRoles(userid);
 		
 		// 遍历所有的角色
 		for(TRole role : roleAll) {

@@ -9,6 +9,10 @@ package top.chao.funding.util;
  */
 public class Const {
 
+	public static final String APP_PATH = "/crowdfunding-main";
 	public static final String LOGIN_USER = "user";
+	public static final String LOGIN_ROOT_PERMISSION = "rootPermission";
+	public static final String ALL_PERMISSION_URI = "allPermissions";
+	public static final String LOGIN_AUTH_PERMISSION_URI = "authURIs";
 
 }

@@ -14,12 +14,6 @@
 	<link rel="stylesheet" href="${APP_PATH}/css/main.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/doc.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/ztree/zTreeStyle.css">
-	<style>
-	.tree li {
-        list-style-type: none;
-		cursor:pointer;
-	}
-	</style>
   </head>
 
   <body>

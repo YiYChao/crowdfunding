@@ -75,4 +75,9 @@ public class PermissionServiceImpl implements PermissionService{
 		}
 		
 	}
+
+	@Override
+	public List<TPermission> queryPermissionsByUserid(Integer id) {
+		return tPermissionMapper.queryPermissionsByUserid(id);
+	}
 }

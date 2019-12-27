@@ -199,5 +199,17 @@
   		#{pid}
   	</foreach>
   </delete>
+  <select id="queryPermissionsByUserid" resultMap="BaseResultMap">
+  	SELECT
+		* 
+	FROM
+		t_permission 
+	WHERE
+		id IN ( 
+			SELECT permissionid FROM t_role_permission WHERE roleid IN ( 
+				SELECT roleid FROM t_user_role WHERE userid = #{id} 
+			) 
+		)
+  </select>
   
 </mapper>

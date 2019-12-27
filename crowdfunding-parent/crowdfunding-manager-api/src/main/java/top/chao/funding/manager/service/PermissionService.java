@@ -93,4 +93,14 @@ public interface PermissionService {
 	 */
 	void deleteRolePermissions(Integer roleId, List<Integer> oldPids);
 
+	/**
+	 * @Title: queryPermissionsByUserid
+	 * @Description: 通过用户主键id查询许可
+	 * @param: id 用户主键id
+	 * @return: List<TPermission> 许可实体列表
+	 * @throws: 无
+	 * @date: 2019年12月26日 上午10:40:21
+	 */
+	List<TPermission> queryPermissionsByUserid(Integer id);
+
 }

@@ -90,4 +90,14 @@ public interface TPermissionMapper {
 	 * @date: 2019年12月25日 下午8:16:27
 	 */
 	void deleteRolePermissions(@Param("roleId")Integer roleId,@Param("oldPids")List<Integer> oldPids);
+
+	/**
+	 * @Title: queryPermissionsByUserid
+	 * @Description: 通过用户主键查询许可
+	 * @param: id 用户主键
+	 * @return: List<TPermission> 许可实体列表
+	 * @throws: 无
+	 * @date: 2019年12月26日 上午10:41:35
+	 */
+	List<TPermission> queryPermissionsByUserid(Integer id);
 }
