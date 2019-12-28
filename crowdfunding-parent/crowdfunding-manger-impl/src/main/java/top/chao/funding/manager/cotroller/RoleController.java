@@ -102,7 +102,7 @@ public class RoleController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public AjaxResult getList(@RequestParam(value="currentPage", required=false, defaultValue="1") Integer currentPage,
-			@RequestParam(value="pageSizes", required=false, defaultValue="3") Integer pageSizes, String condition) {
+			@RequestParam(value="pageSizes", required=false, defaultValue="10") Integer pageSizes, String condition) {
 		AjaxResult result = new AjaxResult();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentPage", currentPage);
@@ -121,7 +121,7 @@ public class RoleController {
 		return result;
 	}
 	
-	@RequestMapping("add")
+	@RequestMapping("/add")
 	public String toAdd() {
 		return "/role/add";
 	}
@@ -201,12 +201,12 @@ public class RoleController {
 	}
 	
 	
-	@RequestMapping(value="assignpermission")
+	@RequestMapping(value="/assignpermission")
 	public String toRolePermission() {
 		return "/role/assignpermission";
 	}
 	
-	@RequestMapping(value="doAssignPermission")
+	@RequestMapping(value="/doAssignPermission")
 	@ResponseBody
 	public AjaxResult doSssignPermission(Integer[] ids, Integer roleId) {
 		AjaxResult result = new AjaxResult();
