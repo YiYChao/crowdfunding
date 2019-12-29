@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="${APP_PATH}/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/main.css">
+	<link rel="stylesheet" href="${APP_PATH}/jquery/pagination/pagination.css">
   </head>
 
   <body>
@@ -57,15 +58,9 @@
 			  <tfoot>
 			     <tr >
 				     <td colspan="4" align="center">
-						<ul class="pagination">
-								<li class="disabled"><a href="#">上一页</a></li>
-								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页</a></li>
-							 </ul>
+						<!-- <ul class="pagination">
+						</ul> -->
+						<div id="Pagination" class="pagination"></div><!-- 这里显示分页 -->
 					 </td>
 				 </tr>
 
@@ -83,6 +78,7 @@
 	<script src="${APP_PATH}/script/docs.min.js"></script>
 	<script src="${APP_PATH}/jquery/layer/layer.js"></script>
 	<script src="${APP_PATH}/script/common.js"></script>
+	<script src="${APP_PATH}/jquery/pagination/jquery.pagination.js"></script>
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -96,10 +92,10 @@
 					}
 				});
 			    setLocation();
-			    queryAdvertPage(1);
+			    queryAdvertPage(0);
             });
             var pageParams = {
-        			"currentPage" : 1,
+        			"currentPage" : 0,
         			"pageSizes" : 10
         		};
             function changePage(page){
@@ -108,7 +104,7 @@
         	}
             function queryAdvertPage(page){
             	var loadingIndex = -1;
-            	pageParams.currentPage = page;	// 设置当前页
+            	pageParams.currentPage = page + 1;	// 设置当前页
             	$.ajax({
             		type : "POST",
             		url : "${APP_PATH}/advert/list.do",
@@ -144,28 +140,39 @@
             					content+='</tr>';
             				});
             				$("tbody").html(content);
-            				var pageBar = '';
+            				/* var pageBar = '';
             				/* 拼接上一页 */
-            				if(pageContent.currentPage == 1){
+            				/* if(pageContent.currentPage == 1){
             					pageBar+='<li class="disabled"><a href="#">上一页</a></li>';
             				}else{
             					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage - 1)+')">上一页</a></li>';
             				}
             				/* 拼接中间页码 */
-            				for(var i = 1; i <= pageContent.totalPages; i++){
+            				/* for(var i = 1; i <= pageContent.totalPages; i++){
             					if(i == pageContent.currentPage){
             						pageBar+='<li class="active"><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
             					}else{
             						pageBar+='<li><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
             					}
-            				}
+            				} */
             				/* 拼接下一页 */
-            				if(pageContent.currentPage == pageContent.totalPages){
+            				/* if(pageContent.currentPage == pageContent.totalPages){
             					pageBar+='<li class="disabled"><a href="#">下一页</a></li>';
             				}else{
             					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage + 1)+')">下一页</a></li>';
             				}
-            				$(".pagination").html(pageBar);
+            				$(".pagination").html(pageBar); */ 
+            				// 创建分页
+            				var num_entries = pageContent.totalRecords;	// 总记录数
+            				$("#Pagination").pagination(num_entries, {
+            					num_edge_entries: 2, //边缘页数
+            					num_display_entries: 4, //主体页数
+            					callback: queryAdvertPage,
+            					items_per_page:pageContent.pageSize, //每页显示1项
+            					current_page:(pageContent.currentPage-1), //当前页,索引从0开始
+            					prev_text:"上一页",
+            					next_text:"下一页"
+            				});
             			}else{
             				layer.mg(data.message, {time:1000,icon:5,shift:6});
             			}
@@ -179,7 +186,7 @@
             $("#queryBtn").click(function(){
             	var condition = $("#advertCondition").val();
            		pageParams.condition = $.trim(condition);
-           		queryAdvertPage(1);
+           		queryAdvertPage(0);
             });
             function editAdvert(advertId){
             	window.location.href = "${APP_PATH}/advert/edit.html?advertId="+ advertId;

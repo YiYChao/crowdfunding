@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="${APP_PATH}/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${APP_PATH}/css/font-awesome.min.css">
     <link rel="stylesheet" href="${APP_PATH}/css/main.css">
+    <link rel="stylesheet" href="${APP_PATH}/jquery/pagination/pagination.css">
 </head>
 
 <body>
@@ -63,27 +64,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="6" align="center">
-                                            <ul class="pagination">
-	                                           <%--  <c:if test="${page.currentPage == 1}">
-	                                            	<li class="disabled"><a href="#">上一页</a></li>
-	                                            </c:if>
-	                                            <c:if test="${page.currentPage != 1}">
-	                                            	<li><a href="#" onclick="changePage(${page.currentPage - 1})">上一页</a></li>
-	                                            </c:if>
-                                                <c:forEach begin="1" end="${page.totalPages}" var="num">
-                                                	<li
-                                                		<c:if test="${num == page.currentPage}">
-                                                			class="active"
-                                                		</c:if>
-                                                	><a href="#" onclick="changePage(${num})">${num}</a></li>
-                                                </c:forEach>
-                                                <c:if test="${page.currentPage == page.totalPages}">
-                                            		<li class="disabled"><a href="#">下一页</a></li>
-	                                            </c:if>
-	                                            <c:if test="${page.currentPage < page.totalPages}">
-	                                            	<li><a href="#" onclick="changePage(${page.currentPage + 1})">下一页</a></li>
-	                                            </c:if> --%>
-                                            </ul>
+                                            <div id="Pagination" class="pagination"></div><!-- 这里显示分页 -->
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -100,6 +81,7 @@
     <script src="${APP_PATH}/script/docs.min.js"></script>
     <script src="${APP_PATH}/jquery/layer/layer.js"></script>
     <script src="${APP_PATH}/script/common.js"></script>
+    <script src="${APP_PATH}/jquery/pagination/jquery.pagination.js"></script>
     <script type="text/javascript">
         $(function () {
             $(".list-group-item").click(function () {
@@ -113,7 +95,7 @@
                 }
                 
             });
-            queryUserPage(1);
+            queryUserPage(0);
             setLocation();
         });
         
@@ -121,7 +103,7 @@
             window.location.href = "assignRole.html";
         });
         var pageParams = {
-    			"currentPage" : 1,
+    			"currentPage" : 0,
     			"pageSizes" : 10
     		};
         function changePage(page){
@@ -130,7 +112,7 @@
     	}
         function queryUserPage(page){
         	var loadingIndex = -1;
-        	pageParams.currentPage = page;	// 设置当前页
+        	pageParams.currentPage = page + 1;	// 设置当前页
         	$.ajax({
         		type : "POST",
         		url : "${APP_PATH}/user/list.do",
@@ -159,28 +141,39 @@
         					content+='</tr>';
         				});
         				$("tbody").html(content);
-        				var pageBar = '';
+        				/* var pageBar = ''; */
         				/* 拼接上一页 */
-        				if(pageContent.currentPage == 1){
+        				/* if(pageContent.currentPage == 1){
         					pageBar+='<li class="disabled"><a href="#">上一页</a></li>';
         				}else{
         					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage - 1)+')">上一页</a></li>';
-        				}
+        				} */
         				/* 拼接中间页码 */
-        				for(var i = 1; i <= pageContent.totalPages; i++){
+        				/* for(var i = 1; i <= pageContent.totalPages; i++){
         					if(i == pageContent.currentPage){
         						pageBar+='<li class="active"><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
         					}else{
         						pageBar+='<li><a href="#" onclick="changePage('+i+')">'+i+'</a></li>';
         					}
-        				}
+        				} */
         				/* 拼接下一页 */
-        				if(pageContent.currentPage == pageContent.totalPages){
+        				/* if(pageContent.currentPage == pageContent.totalPages){
         					pageBar+='<li class="disabled"><a href="#">下一页</a></li>';
         				}else{
         					pageBar+='<li><a href="#" onclick="changePage('+(pageContent.currentPage + 1)+')">下一页</a></li>';
         				}
-        				$(".pagination").html(pageBar);
+        				$(".pagination").html(pageBar); */
+        				// 显示分页条
+        				var num_entries = pageContent.totalRecords;	// 总记录数
+        				$("#Pagination").pagination(num_entries, {
+        					num_edge_entries: 2, //边缘页数
+        					num_display_entries: 4, //主体页数
+        					callback: queryUserPage,
+        					items_per_page:pageContent.pageSize, //每页显示1项
+        					current_page:(pageContent.currentPage-1), //当前页,索引从0开始
+        					prev_text:"上一页",
+        					next_text:"下一页"
+        				});
         			}else{
         				layer.mg(data.message, {time:1000,icon:5,shift:6});
         			}
@@ -194,7 +187,7 @@
         $("#queryBtn").click(function(){
         	var condition = $("#usreCondition").val();
        		pageParams.condition = $.trim(condition);
-       		queryUserPage(1);
+       		queryUserPage(0);
         });
         function editUser(uid){
         	window.location.href = "${APP_PATH}/user/edit.html?id="+ uid;
