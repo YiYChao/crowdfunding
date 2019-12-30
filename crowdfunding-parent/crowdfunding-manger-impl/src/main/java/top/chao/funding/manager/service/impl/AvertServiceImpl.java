@@ -47,4 +47,9 @@ public class AvertServiceImpl implements AvertService{
 		return page;
 	}
 
+	@Override
+	public int saveAdvert(TAdvertisement advert) {
+		return tAdvertisementMapper.insert(advert);
+	}
+
 }

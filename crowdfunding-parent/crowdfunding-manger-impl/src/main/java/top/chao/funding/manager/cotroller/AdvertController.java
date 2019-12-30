@@ -1,17 +1,27 @@
 package top.chao.funding.manager.cotroller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import top.chao.funding.bean.TAdvertisement;
+import top.chao.funding.bean.TUser;
 import top.chao.funding.manager.service.AvertService;
 import top.chao.funding.util.AjaxResult;
+import top.chao.funding.util.Const;
 import top.chao.funding.util.PageResult;
 
 /**
@@ -73,5 +83,43 @@ public class AdvertController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value="/doAdd")
+	public String doAdd(HttpServletRequest requrest, TAdvertisement advert, HttpSession session) {
+		AjaxResult result = new AjaxResult();
+		try {
+			MultipartHttpServletRequest mpRequest = (MultipartHttpServletRequest) requrest;
+			MultipartFile file = mpRequest.getFile("advtpic");	// 获取文件
+			String name = file.getOriginalFilename();	// 获取文件名
+			String extName = name.substring(name.lastIndexOf("."));	// 截取文件扩展名
+			String iconpath = UUID.randomUUID().toString() + extName;
+			
+			String path2 = requrest.getContextPath();
+			
+			ServletContext context = session.getServletContext();
+			String realPath = context.getRealPath("/pic");
+			System.out.println("realPath" + realPath +"\n" + path2);
+			String path = realPath + "\\adv\\" + iconpath;
+			System.out.println("path" + path);
+			file.transferTo(new File(path));
+			
+			TUser user = (TUser) session.getAttribute(Const.LOGIN_USER);
+			advert.setUserid(user.getId());
+			advert.setStatus("1");
+			advert.setIconpath(iconpath);
+			
+			int res = avertService.saveAdvert(advert);
+			result.setSuccess(res == 1);
+			
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("新增广告失败！");
+			e.printStackTrace();
+		}
+		
+		
+		return "redirect:/advert/index.html";
+	}
+	
 	
 }

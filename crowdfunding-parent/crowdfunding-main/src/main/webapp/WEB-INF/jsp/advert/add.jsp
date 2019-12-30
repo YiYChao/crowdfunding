@@ -32,18 +32,18 @@
 			<div class="panel panel-default">
               <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 			  <div class="panel-body">
-				<form role="form" id="roleForm" >
+				<form role="form" id="advertForm" enctype="multipart/form-data" method="post">
 				  <div class="form-group">
-					<label for="fname">广告名称</label>
-					<input type="text" class="form-control" id="fname" placeholder="请输入角色名称">
+					<label for="name">广告名称</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="请输入角色名称">
 				  </div>
 				  <div class="form-group">
-					<label for="furl">广告地址</label>
-					<input type="text" class="form-control" id="furl" placeholder="请输入角色名称">
+					<label for="url">广告地址</label>
+					<input type="text" class="form-control" id="url" name="url" placeholder="请输入角色名称">
 				  </div>
 				  <div class="form-group">
-					<label for="ficonpath">广告图片</label>
-					<input type="file" class="form-control" id="ficonpath" placeholder="请输入角色名称">
+					<label for="advtpic">广告图片</label>
+					<input type="file" class="form-control" id="advtpic" name="advtpic" placeholder="请输入角色名称">
 				  </div>
 				  <button type="button" class="btn btn-success" id="addBtn"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 				  <button type="button" class="btn btn-danger" id="resetBtn"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
@@ -100,29 +100,8 @@
             });
             // 添加广告信息
             $("#addBtn").click(function(){
-            	var name = $("#fname");
-            	var url = $("#furl");
-            	var iconpath = $("#ficonpath");
-            	$.ajax({
-            		type : "POST",
-            		url : "${APP_PATH}/advert/doAdd.do",
-            		data : {
-            			"name" : name.val(),
-            			"url" : url.val(),
-            			"iconpath" : iconpath.val()
-            		},
-            		beforeSend : function(){
-            			return true;
-            		},
-            		success : function(result){
-            			if(result.success){
-            				window.location.href="${APP_PATH}/advert/index.html"
-            			}else{
-            				layer.msg("添加广告失败！", {time:2000});
-            			}
-            		}
-            		
-            	});
+           		$("#advertForm").attr("action","${APP_PATH}/advert/doAdd.do");
+           		$("#advertForm").submit();
             });
             // 重置表单
 			$("#resetBtn").click(function(){

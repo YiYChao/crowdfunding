@@ -22,4 +22,14 @@ public interface AvertService {
 	 * @date: 2019年12月28日 下午7:19:00
 	 */
 	PageResult<TAdvertisement> queryConditionPage(Map<String, Object> map);
+
+	/**
+	 * @Title: saveAdvert
+	 * @Description: 保存广告
+	 * @param: advert 广告实体
+	 * @return: int 保存的记录数
+	 * @throws: 无
+	 * @date: 2019年12月30日 下午9:21:58
+	 */
+	int saveAdvert(TAdvertisement advert);
 }
