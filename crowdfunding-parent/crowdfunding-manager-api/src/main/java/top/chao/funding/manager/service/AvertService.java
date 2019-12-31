@@ -32,4 +32,15 @@ public interface AvertService {
 	 * @date: 2019年12月30日 下午9:21:58
 	 */
 	int saveAdvert(TAdvertisement advert);
+
+	/**
+	 * @Title: deleteAdvertById
+	 * @Description: 根据广告主键删除广告
+	 * @param: @param id
+	 * @param: @return
+	 * @return: int
+	 * @throws: 无
+	 * @date: 2019年12月31日 下午11:07:02
+	 */
+	int deleteAdvertById(Integer id);
 }

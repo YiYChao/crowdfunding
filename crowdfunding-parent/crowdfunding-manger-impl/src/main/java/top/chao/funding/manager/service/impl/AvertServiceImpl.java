@@ -52,4 +52,9 @@ public class AvertServiceImpl implements AvertService{
 		return tAdvertisementMapper.insert(advert);
 	}
 
+	@Override
+	public int deleteAdvertById(Integer id) {
+		return tAdvertisementMapper.deleteAdvertById(id);
+	}
+
 }

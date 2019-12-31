@@ -116,10 +116,24 @@ public class AdvertController {
 			result.setMessage("新增广告失败！");
 			e.printStackTrace();
 		}
-		
-		
 		return "redirect:/advert/index.html";
 	}
+	
+	@RequestMapping(value="/doDelete")
+	@ResponseBody
+	public AjaxResult doDelete(Integer id) {
+		AjaxResult result = new AjaxResult();
+		try {
+			int count = avertService.deleteAdvertById(id);
+			result.setSuccess(count == 1);
+		} catch (Exception e) {
+			result.setMessage("删除广告记录失败！");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	
 	
 	
 }

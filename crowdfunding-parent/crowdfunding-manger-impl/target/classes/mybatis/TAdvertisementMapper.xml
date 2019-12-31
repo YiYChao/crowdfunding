@@ -193,4 +193,7 @@
   	name LIKE #{condition} OR iconpath LIKE #{condition} OR url LIKE #{condition}
   	LIMIT #{begin},#{size}
   </select>
+  <delete id="deleteAdvertById" parameterType="java.lang.Integer">
+  	DELETE FROM t_advertisement WHERE 1=1 AND id=#{id}
+  </delete>
 </mapper>

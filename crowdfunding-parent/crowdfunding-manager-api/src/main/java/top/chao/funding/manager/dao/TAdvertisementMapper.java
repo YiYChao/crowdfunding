@@ -41,4 +41,14 @@ public interface TAdvertisementMapper {
 	 * @date: 2019年12月28日 下午7:22:48
 	 */
 	List<TAdvertisement> queryConditonList(@Param("begin")Integer begin, @Param("size")Integer pageSize, @Param("condition")String condition);
+
+	/**
+	 * @Title: deleteAdvertById
+	 * @Description: 根据广告主键删除广告
+	 * @param: id 广告id
+	 * @return: int 删除的记录数
+	 * @throws: 无
+	 * @date: 2019年12月31日 下午11:08:23
+	 */
+	int deleteAdvertById(Integer id);
 }

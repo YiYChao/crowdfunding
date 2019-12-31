@@ -135,7 +135,7 @@
             					content+='<td>';
             					content+='<button type="button" class="btn btn-success btn-xs" onclick="window.location.href=\'${APP_PATH}/role/assignpermission.html?id='+ rst.id +'\'"><i class=" glyphicon glyphicon-check"></i></button>';
             					content+='<button type="button" class="btn btn-primary btn-xs" onclick="editAdvert('+ rst.id +')"><i class=" glyphicon glyphicon-pencil"></i></button>';
-            					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteAdvert('+ rst.id +',\''+rst.loginacct +'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
+            					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteAdvert('+ rst.id +',\''+rst.name +'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
             					content+='</td>';
             					content+='</tr>';
             				});
@@ -191,13 +191,13 @@
             function editAdvert(advertId){
             	window.location.href = "${APP_PATH}/advert/edit.html?advertId="+ advertId;
             };
-            function deleteAdvert(uid,loginacct){
-            	layer.confirm("确认要删除["+loginacct+"]广告吗？",  {icon: 3, title:'提示'}, function(cindex){
+            function deleteAdvert(advertId,name){
+            	layer.confirm("确认要删除["+name+"]广告吗？",  {icon: 3, title:'提示'}, function(cindex){
     			    layer.close(cindex);
     	        	$.ajax({
     	        		type : "POST",
     	        		url : "${APP_PATH}/advert/doDelete.do",
-    	        		data : {"id" : uid},
+    	        		data : {"id" : advertId},
     	        		beforeSend : function(){
     	        			return true;
     	        		},
