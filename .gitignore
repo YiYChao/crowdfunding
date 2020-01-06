@@ -40,3 +40,4 @@ hs_err_pid*
 .sts4-cache
 /.metadata/
 /Servers/
+/crowdfunding-parent/crowdfunding-main/.bpmn/src/main/resources/activiti/*.bpmn2d
