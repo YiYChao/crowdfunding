@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import top.chao.funding.bean.TMember;
 import top.chao.funding.bean.TUser;
 import top.chao.funding.util.Const;
 
@@ -23,7 +24,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 		HttpServletResponse response, Object handler) throws Exception {
-		System.out.println("LoginInterceptor - preHandle");
 		
 		String requestURI = request.getRequestURI();
 //		System.out.println("requestURI="+requestURI);
@@ -37,8 +37,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			return true ;
 		}else{
 			HttpSession session = request.getSession();
-			TUser user  = (TUser)session.getAttribute(Const.LOGIN_USER);
-			if(user==null){
+			TUser user  = (TUser)session.getAttribute(Const.LOGIN_USER);	// 从Session域中取出管理用户的信息
+			TMember member = (TMember) session.getAttribute(Const.LOGIN_MEMBER);	// 从Session域中取出管理用户的信息
+			if(user==null && member == null){
 				response.sendRedirect(request.getContextPath()+"/login.html");
 				return false ;
 			}else{

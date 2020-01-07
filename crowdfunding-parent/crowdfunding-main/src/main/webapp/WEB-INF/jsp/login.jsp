@@ -17,7 +17,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <div><a class="navbar-brand" href="index.html" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
+          <div><a class="navbar-brand" href="index.html" style="font-size:32px;">易筹网-创意产品众筹平台</a></div>
         </div>
       </div>
     </nav>
@@ -100,9 +100,12 @@
 	    				//alert(data.message);
 	    			}else{
 	    				layer.msg("登录成功", {time:2000});
-	    				window.location.href = "${APP_PATH}/main.html";
+	    				if("user" == data.obj){
+		    				window.location.href = "${APP_PATH}/main.html";
+	    				}else if("member" == data.obj){
+	    					window.location.href = "${APP_PATH}/member/index.html";
+	    				}
 	    			}
-	    			
 	    		},
 	    		error : function(){
 	    			layer.msg("网络异常！", {time:1000,icon:5,shift:6});

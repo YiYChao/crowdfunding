@@ -13,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import top.chao.funding.bean.TMember;
 import top.chao.funding.bean.TPermission;
 import top.chao.funding.bean.TUser;
 import top.chao.funding.manager.service.PermissionService;
 import top.chao.funding.manager.service.UserService;
+import top.chao.funding.portal.service.MemberService;
 import top.chao.funding.util.AjaxResult;
 import top.chao.funding.util.Const;
 import top.chao.funding.util.MD5Util;
@@ -35,6 +37,8 @@ public class DispatchController {
 	private UserService userService;
 	@Autowired
 	private PermissionService permissionService;
+	@Autowired
+	private MemberService memberService;
 	
 	@RequestMapping("/index")
 	public String index() {
@@ -67,33 +71,44 @@ public class DispatchController {
 			userMap.put("loginacct", loginacct);
 			userMap.put("userpswd", MD5Util.digest(userpswd));	// 采用MD5对密码进行加密
 			userMap.put("type", type);
-			TUser user = userService.queryUserLogin(userMap);
-			session.setAttribute(Const.LOGIN_USER, user);
-			result.setSuccess(true);
 			
-			List<TPermission> loginPermissions = permissionService.queryPermissionsByUserid(user.getId());
-			
-			Set<String> authUris = new HashSet<String>();
-			TPermission rootPermission = null;
-			Map<Integer,TPermission> map = new HashMap<Integer,TPermission>();
-			for (TPermission permission : loginPermissions) {
-				map.put(permission.getId(), permission);
-				// 将该用户的权限存入集合
-				if(StringUtil.isNotEmpty(permission.getUrl())){
-					authUris.add(Const.APP_PATH + permission.getUrl());
+			if("member".equals(type)) {		// 会员用户登录
+				TMember member = memberService.queryMemberLogin(userMap);
+				session.setAttribute(Const.LOGIN_MEMBER, member);
+				result.setSuccess(true);
+			}else if("user".equals(type)) {		// 管理用户登录
+				TUser user = userService.queryUserLogin(userMap);
+				session.setAttribute(Const.LOGIN_USER, user);
+				result.setSuccess(true);
+				
+				List<TPermission> loginPermissions = permissionService.queryPermissionsByUserid(user.getId());
+				
+				Set<String> authUris = new HashSet<String>();
+				TPermission rootPermission = null;
+				Map<Integer,TPermission> map = new HashMap<Integer,TPermission>();
+				for (TPermission permission : loginPermissions) {
+					map.put(permission.getId(), permission);
+					// 将该用户的权限存入集合
+					if(StringUtil.isNotEmpty(permission.getUrl())){
+						authUris.add(Const.APP_PATH + permission.getUrl());
+					}
 				}
-			}
-			for (TPermission permission : loginPermissions) {
-				if(permission.getPid()==0){
-					rootPermission = permission ;
-				}else{
-					TPermission parent = map.get(permission.getPid());	
-					parent.setOpen(true);
-					parent.getChildren().add(permission);
+				for (TPermission permission : loginPermissions) {
+					if(permission.getPid()==0){
+						rootPermission = permission ;
+					}else{
+						TPermission parent = map.get(permission.getPid());	
+						parent.setOpen(true);
+						parent.getChildren().add(permission);
+					}
 				}
+				session.setAttribute(Const.LOGIN_ROOT_PERMISSION, rootPermission);	// 菜单权限
+				session.setAttribute(Const.LOGIN_AUTH_PERMISSION_URI, authUris);	// 访问权限
+			}else {
+				result.setSuccess(false);
+				result.setMessage("用户类型不正确！");
 			}
-			session.setAttribute(Const.LOGIN_ROOT_PERMISSION, rootPermission);	// 菜单权限
-			session.setAttribute(Const.LOGIN_AUTH_PERMISSION_URI, authUris);	// 访问权限
+			result.setObj(type); 	// 将用户类型返回给前端
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setSuccess(false);
