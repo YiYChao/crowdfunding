@@ -176,7 +176,7 @@
     	        			console.log(result);
     	        			if(result.success){
     	        				layer.msg("批量删除成功", {time:2000});
-    	        				queryRolePage(pageParams.currentPage);
+    	        				queryRolePage(pageParams.currentPage - 1);
     	        			}else{
     	        				layer.msg("批量删除角色失败！", {time:2000});
     	        			}
@@ -214,7 +214,7 @@
         	        		success : function(result){
         	        			console.log(result);
         	        			if(result.success){
-        	        				queryRolePage(pageParams.currentPage);
+        	        				queryRolePage(pageParams.currentPage - 1);
         	        			}else{
         	        				layer.msg("批量删除角色失败！", {time:2000});
         	        			}

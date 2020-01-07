@@ -206,7 +206,7 @@
 	        			console.log(result);
 	        			if(result.success){
 	        				layer.msg("批量删除成功", {time:2000});
-	        				queryUserPage(pageParams.currentPage);
+	        				queryUserPage(pageParams.currentPage - 1);
 	        			}else{
 	        				layer.msg("批量删除用户失败！", {time:2000});
 	        			}
@@ -244,7 +244,7 @@
     	        		success : function(result){
     	        			console.log(result);
     	        			if(result.success){
-    	        				queryUserPage(pageParams.currentPage);
+    	        				queryUserPage(pageParams.currentPage - 1);
     	        			}else{
     	        				layer.msg("批量删除用户失败！", {time:2000});
     	        			}

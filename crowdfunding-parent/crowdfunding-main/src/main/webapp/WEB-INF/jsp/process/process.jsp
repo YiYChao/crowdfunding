@@ -124,8 +124,8 @@
             					content+='<td>'+ rst.version +'</td>';
             					content+='<td>'+ rst.key +'</td>';
             					content+='<td>';
-            					content+='<button type="button" class="btn btn-primary btn-xs" onclick="viewProcess('+ rst.id +')"><i class="glyphicon glyphicon-eye-open"></i></button>';
-            					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteProcess('+ rst.id +',\''+rst.name +'\')"><i class="glyphicon glyphicon-remove"></i></button>';
+            					content+='<button type="button" class="btn btn-primary btn-xs" onclick="viewProcess(\''+ rst.id +'\')"><i class="glyphicon glyphicon-eye-open"></i></button>';
+            					content+='<button type="button" class="btn btn-danger btn-xs" onclick="deleteProcess(\''+ rst.id +'\',\''+rst.name +'\')"><i class="glyphicon glyphicon-remove"></i></button>';
             					content+='</td>';
             					content+='</tr>';
             				});
@@ -157,25 +157,25 @@
            		queryProcessPage(0);
             });
             function viewProcess(processId){
-            	window.location.href = "${APP_PATH}/process/edit.html?advertId="+ processId;
+            	window.location.href = "${APP_PATH}/process/view.html?processId="+ processId;
             };
             function deleteProcess(processId,name){
-            	layer.confirm("确认要删除["+name+"]流程吗？",  {icon: 3, title:'提示'}, function(cindex){
+            	layer.confirm("确认要删除["+name+"]吗？",  {icon: 3, title:'提示'}, function(cindex){
     			    layer.close(cindex);
     	        	$.ajax({
     	        		type : "POST",
     	        		url : "${APP_PATH}/process/doDelete.do",
-    	        		data : {"id" : processId},
+    	        		data : {"processId" : processId},
     	        		beforeSend : function(){
     	        			return true;
     	        		},
     	        		success : function(result){
     	        			console.log(result);
     	        			if(result.success){
-    	        				layer.msg("批量删除成功", {time:2000});
-    	        				queryProcessPage(pageParams.currentPage);
+    	        				layer.msg("删除流程成功", {time:2000});
+    	        				queryProcessPage(pageParams.currentPage - 1);
     	        			}else{
-    	        				layer.msg("批量删除流程失败！", {time:2000});
+    	        				layer.msg("删除流程失败！", {time:2000});
     	        			}
     	        		}
     	        	});

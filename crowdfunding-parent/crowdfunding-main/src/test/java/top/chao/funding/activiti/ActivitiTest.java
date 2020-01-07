@@ -31,9 +31,9 @@ public class ActivitiTest {
 	public void deployActiviti() {
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		
-//		Deployment deployment = repositoryService.createDeployment().addClasspathResource("activiti/ExclusiveProcess.bpmn").deploy();
+		Deployment deployment = repositoryService.createDeployment().addClasspathResource("activiti/ExclusiveProcess.bpmn").deploy();
 		
-		Deployment deployment = repositoryService.createDeployment().addClasspathResource("activiti/ParallelProcess.bpmn").deploy();
+//		Deployment deployment = repositoryService.createDeployment().addClasspathResource("activiti/ParallelProcess.bpmn").deploy();
 		
 		System.err.println("Deployment:" + deployment);
 	}
@@ -47,7 +47,7 @@ public class ActivitiTest {
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("leaveDates", 3);
+		variables.put("leaveDates", 5);
 		ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId(), variables);
 		
 //		ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId());
