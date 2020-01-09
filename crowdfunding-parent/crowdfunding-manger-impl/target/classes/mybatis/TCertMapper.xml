@@ -137,4 +137,15 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  <select id="queryCertById" resultType="TCert">
+  	SELECT id,name FROM t_cert WHERE id=#{id}
+  </select>
+  <update id="updateCert" parameterType="TCert">
+  	UPDATE t_cert SET name=#{name} WHERE id=#{id}
+  </update>
+  <delete id="deleteCertById">
+  	DELETE FROM t_cert WHERE id=#{id}
+  </delete>
+  
 </mapper>
