@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +49,33 @@ public class DispatchController {
 	}
 	
 	@RequestMapping("/login")
-	public String login() {
-		return "login";
+	public String login(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+		boolean flag = false;	// 是否需要登录的标记
+		String target = "";		// 目标地址
+		Cookie[] cookies = request.getCookies();	// 获取Cookie
+		// 遍历Cookie
+		for (Cookie ck : cookies) {
+			// 找打目标Cookie
+			if("rember".equals(ck.getName())) {
+				// 解析Cookie并封装
+				String[] rst = ck.getValue().split("#");
+				
+				String pwd = rst[1].substring(8).substring(0, rst[1].length() -16);	// 解析出密码
+				
+				AjaxResult result = doLogin(rst[0], pwd, rst[2], "once", session, response);
+				flag = result.isSuccess();	// 标识是否登录成功
+				if("member".equals(result.getObj())) {
+					target = "redirect:/member/index.html";
+				}else {
+					target = "redirect:/main.html";
+				}
+			}
+		}
+		if(flag) {
+			return target;
+		}else {
+			return "login";
+		}
 	}
 	@RequestMapping("/main")
 	public String LoginSuccess() {
@@ -64,7 +92,7 @@ public class DispatchController {
 	
 	@RequestMapping("/doLogin")
 	@ResponseBody
-	public AjaxResult doLogin(String loginacct, String userpswd,String type, HttpSession session) {
+	public AjaxResult doLogin(String loginacct, String userpswd, String type, String remberme, HttpSession session,HttpServletResponse response) {
 		AjaxResult result = new AjaxResult();
 		try {
 			Map<String, Object> userMap = new HashMap<String, Object>();
@@ -76,10 +104,33 @@ public class DispatchController {
 				TMember member = memberService.queryMemberLogin(userMap);
 				session.setAttribute(Const.LOGIN_MEMBER, member);
 				result.setSuccess(true);
+				
+				// 通过Cookie实现记住我两周的功能
+				if("two".equals(remberme)) {
+					// 由于MD5的不可解密性，以及Cookie的不安全性，在密码前后加入8个干扰字符
+					String strMember = loginacct + "#" + MD5Util.digest(loginacct).substring(8, 16) + 
+							userpswd + MD5Util.digest(loginacct).substring(24,32) +"#" + type;
+					
+					Cookie ck = new Cookie("rember", strMember);
+					ck.setMaxAge(14*24*60); 	// 设置Cookie过期时间为两周
+					ck.setPath("/"); 	// 设置cookie的访问路径，任何请求都可以 
+					response.addCookie(ck);	// 加入相应域
+				}
 			}else if("user".equals(type)) {		// 管理用户登录
 				TUser user = userService.queryUserLogin(userMap);
 				session.setAttribute(Const.LOGIN_USER, user);
 				result.setSuccess(true);
+				
+				// 通过Cookie实现记住我两周的功能
+				if("two".equals(remberme)) {
+					// 由于MD5的不可解密性，以及Cookie的不安全性，在密码前后加入8个干扰字符
+					String strUser = loginacct + "#" + MD5Util.digest(loginacct).substring(8, 16) + 
+							userpswd + MD5Util.digest(loginacct).substring(16,24) +"#" + type;
+					Cookie ck = new Cookie("rember", strUser);
+					ck.setMaxAge(14*24*60); 	// 设置Cookie过期时间为两周
+					ck.setPath("/"); 	// 设置cookie的访问路径，任何请求都可以 
+					response.addCookie(ck);	// 加入相应域
+				}
 				
 				List<TPermission> loginPermissions = permissionService.queryPermissionsByUserid(user.getId());
 				
@@ -116,14 +167,4 @@ public class DispatchController {
 		}
 		return result;
 	}
-	
-	/*
-	 * @RequestMapping("/doLogin") public String doLogin(String loginacct, String
-	 * userpswd,String type, HttpSession session) { HashMap<String, Object> userMap
-	 * = new HashMap<String, Object>(); userMap.put("loginacct", loginacct);
-	 * userMap.put("userpswd", userpswd); userMap.put("type", type); TUser user =
-	 * userService.queryUserLogin(userMap); session.setAttribute(Const.LOGIN_USER,
-	 * user); return "redirect:/main.html"; }
-	 */
-	
 }

@@ -37,13 +37,13 @@
 		  </div>
 		  <div class="form-group has-success has-feedback">
 			<select class="form-control" id="ftype" name="type">
-                <option value="member">会员</option>
-                <option value="user" selected>管理</option>
+                <option value="member" selected>会员</option>
+                <option value="user">管理</option>
             </select>
 		  </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" value="remember-me"> 记住我
+            <input type="checkbox" id="remberme"> 记住我
           </label>
           <br>
           <label>
@@ -66,13 +66,15 @@
 	    	userpswd = $("#fuserpswd");
 	    	type = $("#ftype");
 	    	var loadingIndex = -1;
+	    	var remberme = $("#remberme")[0].checked;	// 【记住我】的状态
 	    	$.ajax({
 	    		url : "${APP_PATH}/doLogin.do",
 	    		type : "POST",
 	    		data : {
 	    			"loginacct" : loginacct.val(),
 	    			"userpswd" : userpswd.val(),
-	    			"type" : type.val()
+	    			"type" : type.val(),
+	    			"remberme" : remberme ? "two" : "once"
 	    		},
 	    		beforeSend : function(){
 	    			// 表单提交前进行校验
