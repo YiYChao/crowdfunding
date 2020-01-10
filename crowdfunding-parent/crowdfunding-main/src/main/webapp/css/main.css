@@ -110,4 +110,11 @@ body {
 	cursor:pointer;
 }
 table tbody tr:nth-child(odd){background:#F4F4F4;}
-table tbody td:nth-child(even){color:#C00;}
+/* table tbody td:nth-child(even){color:#C00;} */
+
+/* 类型管理复选框的样式 */
+input[type=checkbox] {
+    width: 14px;
+    height:14px;        
+}
+
