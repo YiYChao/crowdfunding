@@ -23,6 +23,13 @@
             <bean class="org.activiti.explorer.form.MonthFormType"/>   
           </list>
         </property>
+        <!-- 邮件相关配置 -->
+        <property name="mailServerHost" value="smtp.163.com"></property>
+        <!-- <property name="mailServerPort" value=""></property> -->
+        <property name="mailServerDefaultFrom" value="yizhipai888@163.com"></property>
+        <property name="mailServerUsername" value="yizhipai888@163.com"></property>
+        <property name="mailServerPassword" value="chao1234"></property>
+        <property name="mailServerUseSSL" value="true"></property>
     </bean>
   
     <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean" destroy-method="destroy">
