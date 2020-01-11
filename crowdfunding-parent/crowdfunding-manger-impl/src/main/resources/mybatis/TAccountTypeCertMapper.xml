@@ -157,4 +157,8 @@
   <select id="queryAll" resultType="TAccountTypeCert">
   	SELECT DISTINCT accttype,certid FROM t_account_type_cert WHERE accttype IS NOT NULL AND certid IS NOT NULL
   </select>
+  <select id="queryCertNeeded" resultType="top.chao.funding.bean.TCert">
+  	SELECT DISTINCT t_cert.id,t_cert.name FROM t_cert WHERE id in
+	(SELECT certid FROM t_account_type_cert WHERE accttype=2)
+  </select>
 </mapper>

@@ -10,6 +10,20 @@
 	<artifactId>crowdfunding-bean</artifactId>
 	<description>Entity Project</description>
 	<!-- 配置maven版本及工程编译jdk版本以及目标项目的jdk编译版本 -->
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	
+	
 	<build>
 		<plugins>
 			<plugin>

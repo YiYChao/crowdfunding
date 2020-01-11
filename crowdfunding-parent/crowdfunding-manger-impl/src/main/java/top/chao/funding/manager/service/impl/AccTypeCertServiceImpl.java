@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import top.chao.funding.bean.TAccountTypeCert;
+import top.chao.funding.bean.TCert;
 import top.chao.funding.manager.dao.TAccountTypeCertMapper;
 import top.chao.funding.manager.service.AccTypeCertService;
 
@@ -34,6 +35,11 @@ public class AccTypeCertServiceImpl implements AccTypeCertService{
 	@Override
 	public List<TAccountTypeCert> queryAll() {
 		return tAccountTypeCertMapper.queryAll();
+	}
+
+	@Override
+	public List<TCert> queryCertNeeded(String accttype) {
+		return tAccountTypeCertMapper.queryCertNeeded(accttype);
 	}
 
 }

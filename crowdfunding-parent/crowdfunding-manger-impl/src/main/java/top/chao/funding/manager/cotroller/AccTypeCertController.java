@@ -1,6 +1,9 @@
 package top.chao.funding.manager.cotroller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import top.chao.funding.bean.TAccountTypeCert;
 import top.chao.funding.bean.TCert;
+import top.chao.funding.bean.TMember;
 import top.chao.funding.manager.service.AccTypeCertService;
 import top.chao.funding.manager.service.CertService;
 import top.chao.funding.util.AjaxResult;
+import top.chao.funding.util.Const;
 
 /**
  * @ClassName: AccTypeCertController  
@@ -100,6 +105,23 @@ public class AccTypeCertController {
 		} catch (Exception e) {
 			result.setSuccess(false);
 			result.setMessage("系统异常，更新分类关系失败！");
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/picneed")
+	@ResponseBody
+	public AjaxResult getAcctTypePic(HttpSession session,Map<String, List<TCert>> map) {
+		AjaxResult result = new AjaxResult();
+		try {
+			TMember member = (TMember) session.getAttribute(Const.LOGIN_MEMBER);	//获取会员的基本信息
+			List<TCert> certList = accTypeCertService.queryCertNeeded(member.getAccttype());
+			map.put("certList", certList);
+			result.setObj(certList);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("系统异常，获取所需资质类别失败！");
 		}
 		return result;
 	}

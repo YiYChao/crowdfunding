@@ -11,6 +11,7 @@
     <result column="usertype" jdbcType="CHAR" property="usertype" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="cardnum" jdbcType="VARCHAR" property="cardnum" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     <result column="accttype" jdbcType="CHAR" property="accttype" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -208,6 +209,9 @@
       <if test="record.cardnum != null">
         cardnum = #{record.cardnum,jdbcType=VARCHAR},
       </if>
+      <if test="record.telephone != null">
+        cardnum = #{record.telephone,jdbcType=VARCHAR},
+      </if>
       <if test="record.accttype != null">
         accttype = #{record.accttype,jdbcType=CHAR},
       </if>
@@ -227,16 +231,15 @@
       usertype = #{record.usertype,jdbcType=CHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       cardnum = #{record.cardnum,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
       accttype = #{record.accttype,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <select id="queryMemberLogin" resultMap="BaseResultMap">
-  	SELECT id, loginacct, userpswd, username, email, authstatus, usertype, realname, cardnum, accttype
+  	SELECT id, loginacct, userpswd, username, email, authstatus, usertype, realname, cardnum, telephone, accttype
   	FROM t_member WHERE loginacct=#{loginacct} AND userpswd=#{userpswd}
   </select>
-  
-  
   
 </mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.chao.funding.portal.dao.TTicketMapper">
+  <resultMap id="BaseResultMap" type="top.chao.funding.bean.TTicket">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="memberid" jdbcType="INTEGER" property="memberid" />
+    <result column="piid" jdbcType="VARCHAR" property="piid" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="authcode" jdbcType="VARCHAR" property="authcode" />
+    <result column="pstep" jdbcType="VARCHAR" property="pstep" />
+  </resultMap>
+  
+  <insert id="insertTicket">
+  	INSERT INTO t_ticket(memberid,status,pstep) VALUES(#{memberid},0,'accttype');
+  </insert>
+  <update id="updateTicket">
+  	UPDATE t_ticket SET piid=#{piid},status=#{status},authcode=#{authcode},pstep=#{pstep} 
+  	WHERE id=#{id} AND memberid=#{memberid}
+  </update>
+  <select id="selectTicketByMemberId" resultMap="BaseResultMap">
+  	SELECT id,memberid,piid,status,authcode,pstep FROM t_ticket 
+  	WHERE memberid = (SELECT MAX(memberid) FROM t_ticket) AND status != '1';
+  </select>
+</mapper>

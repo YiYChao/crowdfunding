@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -54,27 +55,7 @@
   <body>
  <div class="navbar-wrapper">
       <div class="container">
-			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			  <div class="container">
-				<div class="navbar-header">
-				  <a class="navbar-brand" href="index.html" style="font-size:32px;">易筹网-创意产品众筹平台</a>
-				</div>
-            <div id="navbar" class="navbar-collapse collapse" style="float:right;">
-              <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>${sessionScope.member.username}<span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="member.html"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
-                    <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
-                    <li class="divider"></li>
-                    <li><a href="${APP_PATH}/logout.do"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-			  </div>
-			</nav>
-
+			<jsp:include page="/WEB-INF/jsp/common/member_top.jsp"></jsp:include>
       </div>
     </div>
 <div class="container">
@@ -86,9 +67,13 @@
 						<img src="${APP_PATH}/img/services-box1.jpg" class="img-thumbnail" alt="">
 						<div class="caption" style="text-align:center;">
 							<h3>
-								ZhangSan
+								${sessionScope.member.realname}
 							</h3>
-							<span class="label label-danger" style="cursor:pointer;" onclick="window.location.href='accttype.html'">未实名认证</span>
+							<span class="label label-danger" style="cursor:pointer;" onclick="window.location.href='${APP_PATH}/member/apply.html'">
+								<c:if test="${sessionScope.member.authstatus =='0'}">未实名认证</c:if>
+								<c:if test="${sessionScope.member.authstatus =='1'}">实名认证申请中</c:if>
+								<c:if test="${sessionScope.member.authstatus =='2'}">已实名认证</c:if>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -124,21 +109,8 @@
 		</div>
 	</div>
 </div>
-        <div class="container" style="margin-top:20px;">
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                    <div id="footer">
-                        <div class="footerNav">
-                             <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow" href="http://www.atguigu.com">服务条款</a> | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow" href="http://www.atguigu.com">网站地图</a> | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
-                        </div>
-                        <div class="copyRight">
-                            Copyright ?2017-2017atguigu.com 版权所有
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
+    <jsp:include page="/WEB-INF/jsp/common/member_foot.jsp"></jsp:include>
+    
     <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH}/script/docs.min.js"></script>

@@ -3,6 +3,7 @@ package top.chao.funding.manager.service;
 import java.util.List;
 
 import top.chao.funding.bean.TAccountTypeCert;
+import top.chao.funding.bean.TCert;
 
 /**
  * @ClassName: AccTypeCertService  
@@ -40,5 +41,15 @@ public interface AccTypeCertService {
 	 * @date: 2020年1月10日 下午4:56:40
 	 */
 	List<TAccountTypeCert> queryAll();
+
+	/**
+	 * @Title: queryCertNeeded
+	 * @Description: 根据账户类型获取所需认证的资质类型
+	 * @param: accttype 账户类型
+	 * @return: List<TCert> 资质列表
+	 * @throws: 无
+	 * @date: 2020年1月11日 下午3:21:27
+	 */
+	List<TCert> queryCertNeeded(String accttype);
 
 }

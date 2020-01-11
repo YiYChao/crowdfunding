@@ -11,6 +11,8 @@ import java.util.List;
 public class DataVO {
 
 	private List<Integer> ids;
+	
+	private List<MemberCertVO> membercert;
 
 	public List<Integer> getIds() {
 		return ids;
@@ -19,5 +21,12 @@ public class DataVO {
 	public void setIds(List<Integer> ids) {
 		this.ids = ids;
 	}
-	
+
+	public List<MemberCertVO> getMembercert() {
+		return membercert;
+	}
+
+	public void setMembercert(List<MemberCertVO> membercert) {
+		this.membercert = membercert;
+	}
 }
