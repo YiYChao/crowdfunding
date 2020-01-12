@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.RepositoryService;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import top.chao.funding.util.AjaxResult;
 import top.chao.funding.util.PageResult;
@@ -107,6 +110,30 @@ public class ProcessController {
 		} catch (Exception e) {
 			result.setSuccess(false);
 			result.setMessage("系统异常，删除流程失败！");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/upload")
+	@ResponseBody
+	public AjaxResult upload(HttpServletRequest request) {
+		AjaxResult result = new AjaxResult();
+		try {
+			// 上传流程定义文件
+			MultipartHttpServletRequest fileRequest =(MultipartHttpServletRequest)request;
+			
+			MultipartFile file = fileRequest.getFile("procDefFile");
+			
+			// 部署流程定义文件
+			repositoryService.createDeployment()
+			    //.addClasspathResource(file.getOriginalFilename())
+			    .addInputStream(file.getOriginalFilename(), file.getInputStream()).deploy();
+			
+			result.setSuccess(true);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("系统异常，部署流程失败！");
 			e.printStackTrace();
 		}
 		return result;

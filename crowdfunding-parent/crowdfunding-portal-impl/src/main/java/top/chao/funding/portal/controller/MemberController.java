@@ -32,9 +32,13 @@ public class MemberController {
 	public String toApply(HttpSession session) {
 		TMember member = (TMember) session.getAttribute(Const.LOGIN_MEMBER);
 		TTicket ticket = ticketService.queryTicketByMemberId(member.getId());
-		if(ticket == null) {
-			ticketService.saveTicket(member.getId());
-			return "member/accttype";
+		if(ticket == null) {	// 未查询到流程审批单
+			if(member.getAuthstatus().equals("0")) {	//且用户为未审核状态
+				ticketService.saveTicket(member.getId());
+				return "member/accttype";
+			}else {	//用户不是未审核状态，不允许再次审核
+				return "redirect:/member/index.html";
+			}
 		}else {
 			if("accttype".equals(ticket.getPstep())) {
 				return "/member/accttype";
@@ -44,8 +48,10 @@ public class MemberController {
 				return "/member/uploadfile";
 			}else if("checkemail".equals(ticket.getPstep())) {
 				return "/member/checkemail";
-			}else {
-				return "redirect:/member/index";
+			}else if("checkauthcode".equals(ticket.getPstep())) {
+				return "/member/checkauthcode";
+			}else{	// 完成审批
+				return "redirect:/member/index.html";
 			}
 		}
 	}

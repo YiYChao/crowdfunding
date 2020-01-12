@@ -36,10 +36,14 @@
       <input class="form-control has-success" type="text" placeholder="请输入查询条件">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search" id="queryBtn"></i> 查询</button>
 </form>
 
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-upload"></i> 上传流程定义文件</button>
+<button type="button" class="btn btn-primary" style="float:right;" id="uploadProcDefBtn"><i class="glyphicon glyphicon-upload"></i> 上传流程定义文件</button>
+<!-- 流程定义实例上传隐藏表单域 -->
+<form id="uploadForm" action="${APP_PATH}/process/upload.do" method="post" enctype="multipart/form-data">
+    <input style="display:none;" id="procDefFile" type="file" name="procDefFile">
+</form>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
@@ -78,6 +82,7 @@
 	<script src="${APP_PATH}/jquery/layer/layer.js"></script>
     <script src="${APP_PATH}/script/common.js"></script>
     <script src="${APP_PATH}/jquery/pagination/jquery.pagination.js"></script>
+    <script src="${APP_PATH}//jquery/jquery-form.min.js"></script>
         <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
@@ -183,6 +188,30 @@
     			    layer.close(cindex);
     			});
             };
+            $("#uploadProcDefBtn").click(function(){ //表示增加绑定事件
+            	$("#procDefFile").click(); //表示执行点击
+            });
+            
+            $("#procDefFile").change(function(){//选择上传的文件即开始上传.
+            	var options = {
+               		beforeSubmit : function() {
+               			loadingIndex = layer.msg('流程定义文件上传中', {icon: 16});
+               		},
+               		success : function(result) {
+               			layer.close(loadingIndex);
+               			// 重置文件域对象
+               			$("#uploadForm")[0].reset();
+               			if ( result.success ) {
+               				layer.msg("流程定义文件上传成功", {time:1000, icon:6}, function(){
+               					queryProcessPage(0);
+               				});
+               			} else {
+               				layer.msg("流程定义文件上传失败", {time:1000, icon:5, shift:6});
+               			}
+               		}
+               	}
+               	$("#uploadForm").ajaxSubmit(options);
+            });
         </script>
   </body>
 </html>
