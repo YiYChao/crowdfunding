@@ -31,6 +31,11 @@
 			<artifactId>crowdfunding-manager-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>top.chao.funding</groupId>
+			<artifactId>crowdfunding-portal-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<!-- 配置maven版本及工程编译jdk版本以及目标项目的jdk编译版本 -->
 	<build>

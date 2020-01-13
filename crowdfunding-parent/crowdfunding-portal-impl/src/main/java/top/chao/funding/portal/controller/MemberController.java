@@ -50,6 +50,8 @@ public class MemberController {
 				return "/member/checkemail";
 			}else if("checkauthcode".equals(ticket.getPstep())) {
 				return "/member/checkauthcode";
+			}else if("finishApply".equals(ticket.getPstep())) {	// 申请完成，等待后台审批
+				return "redirect:/member/index.html";
 			}else{	// 完成审批
 				return "redirect:/member/index.html";
 			}

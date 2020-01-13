@@ -41,11 +41,11 @@ public class EmailActiviti {
 	public void startActiviti() {
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
-				.processDefinitionKey("myProcess").processDefinitionVersion(3).singleResult();
+				.processDefinitionKey("myProcess").latestVersion().singleResult();
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("ckcode", 5432);
+		variables.put("ckcode", 1234);
 		ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId(), variables);
 		
 		System.err.println("processInstance:" + processInstance.getProcessInstanceId());

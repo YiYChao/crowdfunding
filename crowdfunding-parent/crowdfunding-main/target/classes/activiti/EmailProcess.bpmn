@@ -17,7 +17,10 @@
           <activiti:string><![CDATA[UTF-8]]></activiti:string>
         </activiti:field>
         <activiti:field name="html">
-          <activiti:expression><![CDATA[您的验证码是：${ckcode}]]></activiti:expression>
+          <activiti:expression><![CDATA[发送的邮件内容包含了未被许可的信息:${ckcode}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="cc">
+          <activiti:string><![CDATA[yizhipai888@163.com]]></activiti:string>
         </activiti:field>
       </extensionElements>
     </serviceTask>
@@ -40,14 +43,14 @@
         <omgdi:waypoint x="597.0" y="145.0"></omgdi:waypoint>
         <omgdi:waypoint x="597.0" y="201.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="100.0" x="597.0" y="169.0"></omgdc:Bounds>
+          <omgdc:Bounds height="16.0" width="64.0" x="597.0" y="169.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
         <omgdi:waypoint x="597.0" y="256.0"></omgdi:waypoint>
         <omgdi:waypoint x="597.0" y="320.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="100.0" x="597.0" y="279.0"></omgdc:Bounds>
+          <omgdc:Bounds height="16.0" width="64.0" x="597.0" y="279.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

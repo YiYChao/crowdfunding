@@ -40,4 +40,18 @@ public interface TicketService {
 	 */
 	int updateTicket(TTicket ticket);
 
+	/**
+	 * @Title: authMemberCert
+	 * @Description: 会员实名认证审核
+	 * @param: memberid 会员主键
+	 * @param: authstatus 审核状态
+	 * @return: int 审核的记录数
+	 * @throws: 无
+	 * @date: 2020年1月12日 下午5:06:13
+	 */
+	int authMemberCert(Integer memberid, String authstatus);
+
+	
+	
+
 }

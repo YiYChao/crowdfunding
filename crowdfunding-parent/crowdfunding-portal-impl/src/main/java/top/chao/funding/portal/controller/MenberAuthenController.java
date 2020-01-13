@@ -74,6 +74,7 @@ public class MenberAuthenController {
 				result.setSuccess(true);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setSuccess(false);
 			result.setMessage("系统异常，选择认证类型失败！");
 		}
@@ -172,7 +173,6 @@ public class MenberAuthenController {
 
 				ProcessInstance processInstance = runtimeService.startProcessInstanceById(mailProcess.getId(), variables);
 				
-				
 				// 设置流程审批单
 				TTicket ticket = ticketService.queryTicketByMemberId(member.getId());	// 查询流程审批单
 				ticket.setPstep("checkauthcode");	// 设置要更新的字段
@@ -212,7 +212,6 @@ public class MenberAuthenController {
 					memberService.updateMemberAcctType(member);	// 更新会员信息
 					
 					// 4、修改实名认证审批单
-					ticket.setStatus("1");
 					ticket.setPstep("finishApply");
 					ticketService.updateTicket(ticket);	// 进行更新
 					

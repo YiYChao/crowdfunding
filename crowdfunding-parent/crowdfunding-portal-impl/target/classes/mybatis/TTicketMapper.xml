@@ -21,4 +21,9 @@
   	SELECT id,memberid,piid,status,authcode,pstep FROM t_ticket 
   	WHERE memberid = (SELECT MAX(memberid) FROM t_ticket) AND status != '1';
   </select>
+  <update id="authMemberCert">
+  	update t_member set authstatus=#{auth} where id=#{id}
+  </update>
+  
+  
 </mapper>

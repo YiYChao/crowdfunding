@@ -34,4 +34,9 @@ public class TicketServiceImpl implements TicketService{
 		return tTicketMapper.updateTicket(ticket);
 	}
 
+	@Override
+	public int authMemberCert(Integer memberid, String authstatus) {
+		return tTicketMapper.authMemberCert(memberid,authstatus);
+	}
+
 }

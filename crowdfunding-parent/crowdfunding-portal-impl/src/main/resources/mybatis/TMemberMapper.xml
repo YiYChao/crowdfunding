@@ -221,9 +221,8 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_member
-    set id = #{record.id,jdbcType=INTEGER},
-      loginacct = #{record.loginacct,jdbcType=VARCHAR},
+    UPDATE t_member
+    SET loginacct = #{record.loginacct,jdbcType=VARCHAR},
       userpswd = #{record.userpswd,jdbcType=CHAR},
       username = #{record.username,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
@@ -233,6 +232,7 @@
       cardnum = #{record.cardnum,jdbcType=VARCHAR},
       telephone = #{record.telephone,jdbcType=VARCHAR},
       accttype = #{record.accttype,jdbcType=CHAR}
+      WHERE id = #{record.id,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -240,6 +240,18 @@
   <select id="queryMemberLogin" resultMap="BaseResultMap">
   	SELECT id, loginacct, userpswd, username, email, authstatus, usertype, realname, cardnum, telephone, accttype
   	FROM t_member WHERE loginacct=#{loginacct} AND userpswd=#{userpswd}
+  </select>
+  <select id="queryTicketByPiid" resultType="TTicket">
+  	SELECT id,memberid,piid,status,authcode,pstep FROM t_ticket WHERE piid=#{piid} AND status='1'
+  </select>
+  <select id="queryMemberById" resultMap="BaseResultMap">
+  	SELECT id, loginacct, userpswd, username, email, authstatus, usertype, realname, cardnum, telephone, accttype
+  	FROM t_member WHERE id=#{id}
+  </select>
+  <select id="queryMemberCertByMemberid" resultType="top.chao.funding.vo.MemberCertVO">
+  	SELECT a.*, b.NAME AS certname 
+	FROM t_member_cert a JOIN t_cert b ON a.certid = b.id 
+	WHERE a.memberid = #{memberid}
   </select>
   
 </mapper>
